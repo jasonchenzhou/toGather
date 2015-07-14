@@ -45,7 +45,7 @@ app.use(session({secret: settings.cookieSecret}));
 
 
 app.use(session({
-	secret: 'keyboard cat'
+	secret: 'keyboard '
 }));
 
 

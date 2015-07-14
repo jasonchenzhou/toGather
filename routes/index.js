@@ -1,19 +1,25 @@
 var crypto = require('crypto');
 var User = require('../models/user.js');
+var Post = require('../models/post.js');
 //var express = require('express');
 //var router = express.Router();
 
 /* GET home page. */
 module.exports = function(app){
 	app.get('/', function(req, res){
-		res.render('index', {
-			title: 'home page',
-			user:  req.session.user,
-			success:  req.flash('success').toString(),
-			error:  req.flash('error').toString()
-		});
+        Post.get(null, function(err, posts){
+            if(err)  posts = [];
+            res.render('index', {
+                title: 'home page',
+                user:  req.session.user,
+                posts: posts,
+                success:  req.flash('success').toString(),
+                error:  req.flash('error').toString()
+            });
+        });
 	});
 
+    app.get('/reg', checkNotLogin);
 	app.get('/reg', function(req, res){
 		res.render('reg', {
 			title: 'register',
@@ -23,6 +29,7 @@ module.exports = function(app){
 		});
 	});
 
+    app.post('/reg', checkNotLogin);
 	app.post('/reg', function(req, res){
         var name = req.body.name,
             password = req.body.password,
@@ -63,6 +70,7 @@ module.exports = function(app){
         });   
 	});
 
+    app.get('/login', checkNotLogin);
 	app.get('/login', function(req,res){
         res.render('login', {
         	title: 'Login',
@@ -72,6 +80,7 @@ module.exports = function(app){
         });
 	});
 
+    app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
@@ -93,19 +102,53 @@ module.exports = function(app){
         });
 	});
 
+    app.get('post', checkLogin);
 	app.get('/post', function(req, res){
-		res.render('post', {title: 'Post'});
+		res.render('post', {
+            title: 'Post',
+            user:  req.session.user,
+            success:  req.flash('success').toString(),
+            error:  req.flash('error').toString()
+        });
 	});
 
+    app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
-
+        var currentUser = req.session.user;
+        var post = new Post(currentUser.name, req.body.title, req.body.post);
+        post.save(function(err){
+            if(err){
+                req.flash('error', err);
+                return res.redirect('/');
+            }
+            req.flash('success', 'Post successfully');
+            res.redirect('/');
+        });
 	});
 
+    app.get('/logout', checkLogin);
 	app.get('/logout', function(req, res){
         req.session.user = null;
         req.flash('success', 'Logout successfully!');
         res.redirect('/');
 	});
+
+
+    function checkLogin(req, res, next){
+        if(!req.session.user){
+            req.flash('error', 'Not Login!');
+            res.direct('/login');
+        }
+        next();
+    }
+
+    function checkNotLogin(req, res, next){
+        if(req.session.user){
+            req.flash('error', 'already login!');
+            res.redirect('back');
+        }
+        next();
+    }
 
 
 }
