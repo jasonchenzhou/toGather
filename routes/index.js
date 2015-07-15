@@ -7,7 +7,7 @@ var Post = require('../models/post.js');
 /* GET home page. */
 module.exports = function(app){
 	app.get('/', function(req, res){
-        Post.get(null, function(err, posts){
+        Post.getAll(null, function(err, posts){
             if(err)  posts = [];
             res.render('index', {
                 title: 'home page',
@@ -132,6 +132,46 @@ module.exports = function(app){
         req.flash('success', 'Logout successfully!');
         res.redirect('/');
 	});
+
+
+    app.get('/upload', checkLogin);
+    app.get('/upload', function(req, res){
+        res.render('upload', {
+            title: 'File Upload',
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
+
+    app.post('/upload', checkLogin);
+    app.post('/upload', function(req, res){
+        req.flash('success', 'File upload success!');
+        res.redirect('/upload');
+    });
+
+    app.get('/u/:name', function(req, res){
+        //see whether user existed
+        User.get(req.params.name, function(err, user){
+            if(!user){
+                req.flash('error', 'User not existed!');
+                return  res.redirect('/');
+            }
+            Post.getAll(user.name, function(err, posts){
+                if(err){
+                    req.flash('error', err);
+                    return  res.redirect('/');
+                }
+                res.render('user', {
+                    title: user.name,
+                    posts: posts,
+                    user: req.session.user,
+                    success:  req.flash('success').toString(),
+                    error:  req.flash('error').toString()
+                });
+            });
+        });
+    });
 
 
     function checkLogin(req, res, next){
