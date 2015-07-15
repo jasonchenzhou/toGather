@@ -4,7 +4,7 @@ var markdown = require('markdown').markdown;
 function Post(name, title, post){
 	this.name = name;
 	this.title = title;
-	this.post = post;
+	this.post = post; //lines of article
 }
 
 module.exports = Post;
@@ -23,7 +23,8 @@ Post.prototype.save = function(callback){
     	name: this.name,
     	time: time,
     	title: this.title,
-    	post: this.post
+    	post: this.post,
+        comments: []
     };
 
     mongodb.open(function(err, db){
@@ -81,7 +82,12 @@ Post.getOne = function(name, day, title, callback){
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
-                doc.post = markdown.toHTML(doc.post);
+                if(doc){
+                    doc.post = markdown.toHTML(doc.post);
+                    doc.comments.forEach(function(comment){
+                        comment.content = markdown.toHTML(comment.content);
+                    });    
+                }
                 callback(null, doc);
             });
         });
