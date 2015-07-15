@@ -188,8 +188,31 @@ module.exports = function(app){
                 req.flash('error', err);
                 return  res.redirect('back');
             }
+            res.render('article', {
+                //title: 'Edit',
+                title: req.params.title,
+                post: post,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    });
+
+    app.get('/edit/:name/:day/:title', checkLogin);
+    app.get('/edit/:name/:day/:title', function(req, res){
+
+        console.log("read post!!!");
+
+        var currentUser = req.session.user;
+        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('back');
+            }
             res.render('edit', {
-                title: 'Edit',
+                //title: 'Edit',
+                title: req.params.title,
                 post: post,
                 user: req.session.user,
                 success: req.flash('success').toString(),
@@ -199,8 +222,8 @@ module.exports = function(app){
     });
 
 
-    app.post('/u/:name/:day/:title', checkLogin);
-    app.post('/u/:name/:day/:title', function(req, res){
+    app.post('/edit/:name/:day/:title', checkLogin);
+    app.post('/edit/:name/:day/:title', function(req, res){
         var currentUser = req.session.user;
 
         //console.log(currentUser);
@@ -218,24 +241,19 @@ module.exports = function(app){
     });
 
 
-/*
-app.post('/edit/:name/:day/:title', checkLogin);
-app.post('/edit/:name/:day/:title', function (req, res) {
+    app.get('/remove/:name/:day/:title', checkLogin);
+    app.get('/remove/:name/:day/:title', function(req, res){
+        var currentUser = req.session.user;
+        Post.remove(currentUser.name, req.params.day, req.params.title, function(err){
+            if(err){
+                req.flash('error', err);
+                return res.redirect('back');
+            }
+            req.flash('success', 'delete success!');
+            res.redirect('/');
+        });
+    });
 
-   console.log("start post!!!");
-
-  var currentUser = req.session.user;
-  Post.update(currentUser.name, req.params.day, req.params.title, req.body.post, function (err) {
-    var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title);
-    if (err) {
-      req.flash('error', err); 
-      return res.redirect(url);//出错！返回文章页
-    }
-    req.flash('success', '修改成功!');
-    res.redirect(url);//成功！返回文章页
-  });
-});
-*/
 
     function checkLogin(req, res, next){
         if(!req.session.user){

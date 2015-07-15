@@ -1,10 +1,11 @@
 <%- include header %>
+<h1>article page</h1>
 <p>
     <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day%>/<%= post.title %>">Edit</a></span>
     <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>">Delete</a></span>
 </p>
 <p class="info">
-    article page
+    
     Author: <a href="/u/<%= post.name %>"><%= post.name %></a>
     Date: <%= post.time.minute %>
 </p>
