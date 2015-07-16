@@ -1,32 +1,40 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Blog</title>
-        <link rel="stylesheet" href="/stylesheets/style.css">
-    </head>
 
-    <body>
-        <header>
-            <h1><%= title %></h1>
-        </header>
 
-        <nav>
-            <span><a title="Home Page" href="/">home</a></span>
-            <% if(user){ %>
-                <span><a title="Post"  href="/post">post</a></span>  
-                <span><a title="Upload" href="./upload">Upload</a></span>
-                <span><a title="Logout" href="/logout">logout</a></span>
+<!-- views/header.ejs -->
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+	
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                Party
+            </a>
+        </div>
+
+        <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+			<% if(user){ %>
+                <li><a title="Post"  href="/post">post</a></li> 
+                <li><a title="Upload" href="./upload">Upload</a></li> 
+                <li><a title="Logout" href="/logout">logout</a></li> 
             <% }else{ %>
-                <span><a title="Login"  href="/login">Login</a></span>
-                <span><a title="Register" href="/reg">Register</a></span>
+                <li><a title="Login"  href="/login">Login</a></li> 
+                <li><a title="Register" href="/reg">Register</a></li> 
             <% } %>
-        </nav>
-
-        <article>
-            <% if(success){ %>
-                <div><%- success%></div>
+            <li><a href="/about">About</a></li>
+        </ul>
+		</div>
+		
+		<% if(success){ %>
+                <div class="alert alert-success" role="alert">Well done! You successfully logged in.</div>
             <% } %>
             <% if(error){ %>
-                <div><%- error %></div>
+                <div class="alert alert-danger" role="alert">Incorrect Username/Password. </div>
             <% } %>
+      
+    
+</nav>
+
+
+
