@@ -286,7 +286,7 @@ module.exports = function(app){
     function checkLogin(req, res, next){
         if(!req.session.user){
             req.flash('error', 'Not Login!');
-            res.direct('/login');
+            res.redirect('/login');
         }
         next();
     }
