@@ -1,9 +1,38 @@
 <%- include header %>
+<%- include head %>
+
 <form method="post">
+<div class="reg-forms">
+
+<div class="col-sm-4" style="background-color:lavender;">
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1">Name</span>
+  <input name="name" type="text" class="form-control" placeholder="name" aria-describedby="sizing-addon1" name="name">
+</div>
+  <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1">Password</span>
+  <input type="password" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password">
+ </div>
+  <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1">Confirm Password</span>
+  <input type="password" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password-repeat">
+ </div>
+  <div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1">Mailbox</span>
+  <input type="text" class="form-control" placeholder="email@domain.com" aria-describedby="sizing-addon1" name="email">
+  </div>
+
+  
+  <button type="submit" value="Register" class="btn btn-default">Submit</button>
+  <!--
     Username:  <input type="text" name="name"/><br/>
     Password:  <input type="password" name="password"/><br/>
     Confirm password:  <input type="password" name="password-repeat"/><br/>
     Mailbox:   <input type="email" name="email"/><br/>
                <input type="submit" value="Register"/>
+			   --!>
 </form>
+</div>
+
+
 <%- include footer %>
