@@ -1,7 +1,21 @@
 <%- include header %>
-<form method="post">
-  Username: <input type="text" name="name"/><br/>
-  Password: <input type="password" name="password"/><br/>
-            <input type="submit" value="Login"/>
-</form>
+
+<%- include head %>
+    <div class="col-sm-4" style="background-color:lavender;">
+	    <form method="post">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">Login</span>
+                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" name="name">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">Password</span>
+                <input type="text" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password">
+  
+            </div>
+	    <button type="submit" value="Login" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+
 <%- include footer %>

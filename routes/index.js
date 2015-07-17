@@ -1,17 +1,23 @@
 var crypto = require('crypto');
 var User = require('../models/user.js');
 var Post = require('../models/post.js');
+var Comment = require('../models/comments.js')
 //var express = require('express');
 //var router = express.Router();
 
 /* GET home page. */
 module.exports = function(app){
 	app.get('/', function(req, res){
-        Post.getAll(null, function(err, posts){
+        //find its page
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.getTen(null, page, function(err, posts, total){
             if(err)  posts = [];
             res.render('index', {
                 title: 'home page',
                 user:  req.session.user,
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page - 1)*10 + posts.length) == total,
                 posts: posts,
                 success:  req.flash('success').toString(),
                 error:  req.flash('error').toString()
@@ -82,6 +88,9 @@ module.exports = function(app){
 
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
+
+        console.log("log in now!!");
+
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
         //check whether username existed
@@ -151,13 +160,14 @@ module.exports = function(app){
     });
 
     app.get('/u/:name', function(req, res){
+        var page = req.query.p ? parseInt(req.query.p) : 1;
         //see whether user existed
         User.get(req.params.name, function(err, user){
             if(!user){
                 req.flash('error', 'User not existed!');
                 return  res.redirect('/');
             }
-            Post.getAll(user.name, function(err, posts){
+            Post.getTen(user.name, page, function(err, posts, total){
                 if(err){
                     req.flash('error', err);
                     return  res.redirect('/');
@@ -165,6 +175,9 @@ module.exports = function(app){
                 res.render('user', {
                     title: user.name,
                     posts: posts,
+                    page: page,
+                    isFirstPage: (page - 1) == 0,
+                    isLastPage: ((page - 1)*10 + posts.length) == total,
                     user: req.session.user,
                     success:  req.flash('success').toString(),
                     error:  req.flash('error').toString()
@@ -174,10 +187,106 @@ module.exports = function(app){
     });
 
 
+    app.get('/u/:name/:day/:title', checkLogin);
+    app.get('/u/:name/:day/:title', function(req, res){
+
+        var currentUser = req.session.user;
+        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('back');
+            }
+            res.render('article', {
+                //title: 'Edit',
+                title: req.params.title,
+                post: post,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    });
+
+
+    app.post('/u/:name/:day/:title', function(req, res){
+        var date = new Date(),
+            time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
+            var comment = {
+                name: req.body.name,
+                email: req.body.email,
+                website: req.body.website,
+                time: time,
+                content: req.body.content
+            };
+
+            var newComment = new Comment(req.params.name, req.params.day, req.params.title, comment);
+            newComment.save(function(err){
+                if(err){
+                    req.flash('error', err);
+                    return res.redirect('back');
+                }
+                req.flash('success', 'Comment success!');
+                res.redirect('back');
+            });
+    });
+ 
+
+    app.get('/edit/:name/:day/:title', checkLogin);
+    app.get('/edit/:name/:day/:title', function(req, res){
+        var currentUser = req.session.user;
+        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('back');
+            }
+            res.render('edit', {
+                title: 'Edit',
+                post: post,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    });
+
+
+    app.post('/edit/:name/:day/:title', checkLogin);
+    app.post('/edit/:name/:day/:title', function(req, res){
+        var currentUser = req.session.user;
+
+        //console.log(currentUser);
+        //console.log("start post edit!!!")
+
+        Post.update(currentUser.name, req.params.day, req.params.title, req.body.post, function(err){
+            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title);
+            if(err){
+                req.flash('error', err);
+                return  res.redirect(url);
+            }
+            req.flash('success', 'Edit success!');
+              res.redirect(url);
+        });
+    });
+
+
+    app.get('/remove/:name/:day/:title', checkLogin);
+    app.get('/remove/:name/:day/:title', function(req, res){
+        var currentUser = req.session.user;
+        Post.remove(currentUser.name, req.params.day, req.params.title, function(err){
+            if(err){
+                req.flash('error', err);
+                return res.redirect('back');
+            }
+            req.flash('success', 'delete success!');
+            res.redirect('/');
+        });
+    });
+
+
     function checkLogin(req, res, next){
         if(!req.session.user){
             req.flash('error', 'Not Login!');
-            res.direct('/login');
+            res.redirect('/login');
         }
         next();
     }
