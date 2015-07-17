@@ -124,7 +124,7 @@ module.exports = function(app){
     app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
         var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.post);
+        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.post);
         post.save(function(err){
             if(err){
                 req.flash('error', err);
@@ -205,11 +205,11 @@ module.exports = function(app){
     });
 
 
-    app.get('/u/:name/:day/:title', checkLogin);
-    app.get('/u/:name/:day/:title', function(req, res){
+    app.get('/u/:name/:day/:title/:loc', checkLogin);
+    app.get('/u/:name/:day/:title/:loc', function(req, res){
 
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
@@ -219,6 +219,7 @@ module.exports = function(app){
                 title: req.params.title,
                 post: post,
                 user: req.session.user,
+                loc: req.params.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -226,7 +227,7 @@ module.exports = function(app){
     });
 
 
-    app.post('/u/:name/:day/:title', function(req, res){
+    app.post('/u/:name/:day/:title/:loc', function(req, res){
         var date = new Date(),
             time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
             var comment = {
@@ -237,7 +238,7 @@ module.exports = function(app){
                 content: req.body.content
             };
 
-            var newComment = new Comment(req.params.name, req.params.day, req.params.title, comment);
+            var newComment = new Comment(req.params.name, req.params.day, req.params.title, req.params.loc, comment);
             newComment.save(function(err){
                 if(err){
                     req.flash('error', err);
@@ -249,10 +250,10 @@ module.exports = function(app){
     });
  
 
-    app.get('/edit/:name/:day/:title', checkLogin);
-    app.get('/edit/:name/:day/:title', function(req, res){
+    app.get('/edit/:name/:day/:title/:loc', checkLogin);
+    app.get('/edit/:name/:day/:title/:loc', function(req, res){
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
@@ -261,6 +262,7 @@ module.exports = function(app){
                 title: 'Edit',
                 post: post,
                 user: req.session.user,
+                loc: post.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -268,15 +270,19 @@ module.exports = function(app){
     });
 
 
-    app.post('/edit/:name/:day/:title', checkLogin);
-    app.post('/edit/:name/:day/:title', function(req, res){
+    app.post('/edit/:name/:day/:title/:loc', checkLogin);
+  /*  app.post('/edit/:name/:day/:title/:loc', function(next){
+        console.log("haha!");
+       // next();
+    }); */
+    app.post('/edit/:name/:day/:title/:loc', function(req, res){
         var currentUser = req.session.user;
 
-        //console.log(currentUser);
-        //console.log("start post edit!!!")
+        console.log(currentUser);
+        console.log("start post edit!!!")
 
-        Post.update(currentUser.name, req.params.day, req.params.title, req.body.post, function(err){
-            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title);
+        Post.update(currentUser.name, req.params.day, req.params.title, req.params.loc, req.body.post, function(err){
+            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title + '/' + req.params.loc);
             if(err){
                 req.flash('error', err);
                 return  res.redirect(url);
@@ -287,10 +293,10 @@ module.exports = function(app){
     });
 
 
-    app.get('/remove/:name/:day/:title', checkLogin);
-    app.get('/remove/:name/:day/:title', function(req, res){
+    app.get('/remove/:name/:day/:title/:loc', checkLogin);
+    app.get('/remove/:name/:day/:title/:loc', function(req, res){
         var currentUser = req.session.user;
-        Post.remove(currentUser.name, req.params.day, req.params.title, function(err){
+        Post.remove(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err){
             if(err){
                 req.flash('error', err);
                 return res.redirect('back');

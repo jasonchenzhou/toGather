@@ -3,6 +3,7 @@
 <form method = "post">
     Title: <br/>
     <input type="text" name="title" value="<%= post.title %>" disabled="disabled" /><br/>
+    <input type="text" name="loc" value="<%= post.loc %>" disabled="disabled" /><br/>
     Paragraph: <br/>
     <textarea name="post" rows="20" cols="100"><%= post.post %></textarea><br/>
     <input type="submit" value="store edit"/>

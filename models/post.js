@@ -1,9 +1,10 @@
 var mongodb = require('./db');
 var markdown = require('markdown').markdown;
 
-function Post(name, title, post){
-	this.name = name;
+function Post(name, title, loc, post){
+	this.name = name;   //username
 	this.title = title;
+    this.loc = loc;      // add new location!
 	this.post = post; //lines of article
 }
 
@@ -23,6 +24,7 @@ Post.prototype.save = function(callback){
     	name: this.name,
     	time: time,
     	title: this.title,
+        loc: this.loc,
     	post: this.post,
         comments: []
     };
@@ -67,7 +69,7 @@ Post.getAll = function(name, callback){
 };
 
 //just one article
-Post.getOne = function(name, day, title, callback){
+Post.getOne = function(name, day, title, loc, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -78,7 +80,8 @@ Post.getOne = function(name, day, title, callback){
             collection.findOne({
                 "name":  name,
                 "time.day":  day,
-                "title":  title
+                "title":  title,
+                "loc": loc
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -94,7 +97,7 @@ Post.getOne = function(name, day, title, callback){
     });
 };
 
-
+//ten of this user!
 Post.getTen = function(name, page, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
@@ -123,7 +126,7 @@ Post.getTen = function(name, page, callback){
 };
 
 
-Post.edit = function(name, day, title, callback){
+Post.edit = function(name, day, title, loc, callback){
     mongodb.open(function(err, db){
         if(err)  return  callback(err);
         db.collection('posts', function(err, collection){
@@ -134,7 +137,8 @@ Post.edit = function(name, day, title, callback){
             collection.findOne({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -145,7 +149,8 @@ Post.edit = function(name, day, title, callback){
 };
 
 
-Post.update = function(name, day, title, post, callback){
+Post.update = function(name, day, title, loc, post, callback){
+    console.log("enter here!");
     mongodb.open(function(err, db){
         if(err){
             console.log('failed open db!');
@@ -159,7 +164,8 @@ Post.update = function(name, day, title, post, callback){
             collection.update({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc
             }, {
                 $set: {post: post}
             }, function(err){
@@ -174,7 +180,7 @@ Post.update = function(name, day, title, post, callback){
     });
 };
 
-
+//search party by location!
 Post.search = function(keyword, callback){
     mongodb.open(function(err, db){
         if(err)  return  callback(err);
@@ -184,10 +190,11 @@ Post.search = function(keyword, callback){
                 return  callback(err);
             }
             var pattern = new RegExp(keyword, "i");
-            collection.find({"title": pattern}, {
+            collection.find({"loc": pattern}, {
                 "name": 1,
                 "time": 1,
-                "title": 1
+                "title": 1,
+                "loc": 1
             }).sort({time: -1}).toArray(function(err, docs){
                 mongodb.close();
                 if(err)  return  callback(err);
@@ -198,7 +205,7 @@ Post.search = function(keyword, callback){
 };
 
 
-Post.remove = function(name, day, title, callback){
+Post.remove = function(name, day, title, loc, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -209,7 +216,8 @@ Post.remove = function(name, day, title, callback){
             collection.remove({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc
             }, {w: 1},
             function(err){
                 mongodb.close();
