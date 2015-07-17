@@ -22,3 +22,11 @@ article a:hover{color:#333333;text-decoration:underline;}
   height: 60px;
   background-color: #f5f5f5;
 }
+.search{
+	border:0;
+	width: 6em;
+	text-align: center;
+	font-size: 1em;
+	margin:0.5em 0;
+}
+
