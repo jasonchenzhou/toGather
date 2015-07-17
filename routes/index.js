@@ -124,7 +124,7 @@ module.exports = function(app){
     app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
         var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.post);
+        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.partyDate, req.body.post);
         post.save(function(err){
             if(err){
                 req.flash('error', err);
@@ -161,20 +161,49 @@ module.exports = function(app){
 
 
     app.get('/search', function(req, res){
-        Post.search(req.query.keyword, function(err, posts){
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.search(req.query.keyword, page, req.query.startDate, req.query.endDate, function(err, posts, total){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('/');
             }
+            console.log("~~~~~~~~~~~~~");
             res.render('search', {
                 title: "SEARCH: " + req.query.keyword,
-                posts: posts,
                 user: req.session.user,
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page-1)*10 + posts.length) == total,
+                posts: posts,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
         });
     });
+
+
+
+/*
+
+var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.getTen(null, page, function(err, posts, total){
+            if(err)  posts = [];
+            res.render('index', {
+                title: 'home page',
+                user:  req.session.user,
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page - 1)*10 + posts.length) == total,
+                posts: posts,
+                success:  req.flash('success').toString(),
+                error:  req.flash('error').toString()
+            });  
+        });
+
+
+
+*/
+
 
 
     app.get('/u/:name', function(req, res){

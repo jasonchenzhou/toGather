@@ -1,10 +1,11 @@
 var mongodb = require('./db');
 var markdown = require('markdown').markdown;
 
-function Post(name, title, loc, post){
+function Post(name, title, loc, partyDate, post){
 	this.name = name;   //username
 	this.title = title;
     this.loc = loc;      // add new location!
+    this.partyDate = partyDate;
 	this.post = post; //lines of article
 }
 
@@ -25,6 +26,7 @@ Post.prototype.save = function(callback){
     	time: time,
     	title: this.title,
         loc: this.loc,
+        partyDate: this.partyDate,
     	post: this.post,
         comments: []
     };
@@ -69,7 +71,7 @@ Post.getAll = function(name, callback){
 };
 
 //just one article
-Post.getOne = function(name, day, title, loc, callback){
+Post.getOne = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -81,7 +83,8 @@ Post.getOne = function(name, day, title, loc, callback){
                 "name":  name,
                 "time.day":  day,
                 "title":  title,
-                "loc": loc
+                "loc": loc,
+                "partyDate": partyDate
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -121,6 +124,45 @@ Post.getTen = function(name, page, callback){
                     callback(null, docs, total);
                 });
             });
+        });
+    });
+};
+
+//search 10 results a page according loc and start and end date
+Post.search = function(loc, page, startDate, endDate, callback){
+    mongodb.open(function(err, db){
+        if(err)  return  callback(err);
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            console.log("into search post!!~~");
+            var pattern = new RegExp(loc, "i");
+            var query = {
+                "loc": pattern,
+                "partyDate": {$gte: startDate},
+                "partyDate": {$lte: endDate}
+            };
+           
+            //console.log(query);
+            collection.count(query, function(err, total){
+                console.log("number: " + total);
+                collection.find(query, {
+                    skip: (page - 1) * 10,
+                    limit: 10
+                }).sort({time: -1}).toArray(function(err, docs){
+                    mongodb.close();
+                    if(err)  return  callback(err);
+                    docs.forEach(function(doc){
+                        doc.post = markdown.toHTML(doc.post);
+                    });
+
+                    console.log(docs);
+
+                    callback(null, docs, total);
+                });
+            });   
         });
     });
 };
@@ -181,7 +223,7 @@ Post.update = function(name, day, title, loc, post, callback){
 };
 
 //search party by location!
-Post.search = function(keyword, callback){
+/*Post.search = function(keyword, callback){
     mongodb.open(function(err, db){
         if(err)  return  callback(err);
         db.collection('posts', function(err, collection){
@@ -203,7 +245,7 @@ Post.search = function(keyword, callback){
         });
     });
 };
-
+*/
 
 Post.remove = function(name, day, title, loc, callback){
     mongodb.open(function(err, db){

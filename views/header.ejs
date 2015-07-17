@@ -34,7 +34,13 @@
             <% } %>
       
     
-        <span><form action="/search" method="GET"><input type="text" name="keyword" placeholder="SEARCH" class="search"/></form></span>
+        <span>
+            <form action="/search" method="GET">
+                <input type="text" name="keyword" placeholder="SEARCH" class="search"/>
+                <input type="date" name="startDate" class="search"/>
+                <input type="date" name="endDate" class="search"/>
+            </form>
+        </span>
         
 
 </nav>
