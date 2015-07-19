@@ -168,7 +168,7 @@ Post.search = function(loc, page, startDate, endDate, callback){
 };
 
 
-Post.edit = function(name, day, title, loc, callback){
+Post.edit = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return  callback(err);
         db.collection('posts', function(err, collection){
@@ -180,7 +180,8 @@ Post.edit = function(name, day, title, loc, callback){
                 "name": name,
                 "time.day": day,
                 "title": title,
-                "loc": loc
+                "loc": loc,
+                "partyDate": partyDate
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -191,8 +192,8 @@ Post.edit = function(name, day, title, loc, callback){
 };
 
 
-Post.update = function(name, day, title, loc, post, callback){
-    console.log("enter here!");
+Post.update = function(name, day, title, loc, partyDate, post, callback){
+   // console.log("enter here!");
     mongodb.open(function(err, db){
         if(err){
             console.log('failed open db!');
@@ -207,7 +208,8 @@ Post.update = function(name, day, title, loc, post, callback){
                 "name": name,
                 "time.day": day,
                 "title": title,
-                "loc": loc
+                "loc": loc,
+                "partyDate": partyDate
             }, {
                 $set: {post: post}
             }, function(err){
@@ -247,7 +249,7 @@ Post.update = function(name, day, title, loc, post, callback){
 };
 */
 
-Post.remove = function(name, day, title, loc, callback){
+Post.remove = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -259,7 +261,8 @@ Post.remove = function(name, day, title, loc, callback){
                 "name": name,
                 "time.day": day,
                 "title": title,
-                "loc": loc
+                "loc": loc,
+                "partyDate": partyDate
             }, {w: 1},
             function(err){
                 mongodb.close();

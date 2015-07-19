@@ -1,10 +1,11 @@
 var mongodb = require('./db');
 
-function Comment(name, day, title, loc, comment){
+function Comment(name, day, title, loc, partyDate, comment){
 	this.name = name;
 	this.day = day;
 	this.title = title;
 	this.loc = loc;
+	this.partyDate = partyDate;
 	this.comment = comment;
 }
 
@@ -16,6 +17,7 @@ Comment.prototype.save = function(callback){
 	    day = this.day,
 	    title = this.title,
 	    loc = this.loc,
+	    partyDate = this.partyDate,
 	    comment = this.comment;
 
 	mongodb.open(function(err, db){
@@ -30,7 +32,8 @@ Comment.prototype.save = function(callback){
 				"name": name,
 				"time.day": day,
 				"title": title,
-				"loc": loc
+				"loc": loc,
+				"partyDate": partyDate
 			}, {$push: {"comments": comment}},
 			function(err){
 				mongodb.close();

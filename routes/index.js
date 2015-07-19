@@ -89,7 +89,7 @@ module.exports = function(app){
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
 
-        console.log("log in now!!");
+       // console.log("log in now!!");
 
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
@@ -167,7 +167,7 @@ module.exports = function(app){
                 req.flash('error', err);
                 return  res.redirect('/');
             }
-            console.log("~~~~~~~~~~~~~");
+         //   console.log("~~~~~~~~~~~~~");
             res.render('search', {
                 title: "SEARCH: " + req.query.keyword,
                 user: req.session.user,
@@ -234,15 +234,17 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
 
 
-    app.get('/u/:name/:day/:title/:loc', checkLogin);
-    app.get('/u/:name/:day/:title/:loc', function(req, res){
+    app.get('/u/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
 
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
             }
+          //  console.log(post);
+           // console.log('!!!!!!!!!');
             res.render('article', {
                 //title: 'Edit',
                 title: req.params.title,
@@ -256,7 +258,8 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
 
 
-    app.post('/u/:name/:day/:title/:loc', function(req, res){
+//post comment info
+    app.post('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
         var date = new Date(),
             time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
             var comment = {
@@ -267,7 +270,10 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 content: req.body.content
             };
 
-            var newComment = new Comment(req.params.name, req.params.day, req.params.title, req.params.loc, comment);
+            var newComment = new Comment(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, comment);
+            
+            //console.log(newComment);
+
             newComment.save(function(err){
                 if(err){
                     req.flash('error', err);
@@ -279,10 +285,10 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
  
 
-    app.get('/edit/:name/:day/:title/:loc', checkLogin);
-    app.get('/edit/:name/:day/:title/:loc', function(req, res){
+    app.get('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
@@ -299,19 +305,19 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
 
 
-    app.post('/edit/:name/:day/:title/:loc', checkLogin);
+    app.post('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
   /*  app.post('/edit/:name/:day/:title/:loc', function(next){
         console.log("haha!");
        // next();
     }); */
-    app.post('/edit/:name/:day/:title/:loc', function(req, res){
+    app.post('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
 
-        console.log(currentUser);
-        console.log("start post edit!!!")
+       // console.log(currentUser);
+       // console.log("start post edit!!!")
 
-        Post.update(currentUser.name, req.params.day, req.params.title, req.params.loc, req.body.post, function(err){
-            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title + '/' + req.params.loc);
+        Post.update(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, req.body.post, function(err){
+            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title + '/' + req.params.loc + '/' + req.params.partyDate);
             if(err){
                 req.flash('error', err);
                 return  res.redirect(url);
@@ -322,10 +328,10 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
 
 
-    app.get('/remove/:name/:day/:title/:loc', checkLogin);
-    app.get('/remove/:name/:day/:title/:loc', function(req, res){
+    app.get('/remove/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/remove/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
-        Post.remove(currentUser.name, req.params.day, req.params.title, req.params.loc, function(err){
+        Post.remove(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err){
             if(err){
                 req.flash('error', err);
                 return res.redirect('back');
