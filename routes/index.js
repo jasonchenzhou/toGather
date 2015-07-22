@@ -1,7 +1,8 @@
 var crypto = require('crypto');
 var User = require('../models/user.js');
 var Post = require('../models/post.js');
-var Comment = require('../models/comments.js')
+var Comment = require('../models/comments.js');
+var gapi = require('../models/gapi.js');
 //var express = require('express');
 //var router = express.Router();
 
@@ -27,6 +28,9 @@ module.exports = function(app){
 
     app.get('/reg', checkNotLogin);
 	app.get('/reg', function(req, res){
+
+      //  console.log(gapi.url);
+
 		res.render('reg', {
 			title: 'register',
 			user:  req.session.user,
@@ -76,11 +80,100 @@ module.exports = function(app){
         });   
 	});
 
+/*
+var getData = function(){
+    gapi.oauth.userinfo.get().withAuthClient(gapi.client).execute(function(err, results){
+        console.log(results);
+    });
+    gapi.cal.calendarList.list().withAuthClient(gapi.client).execute(function(err, results){
+        console.log(results);
+    });
+};
+*/
+
+    var getProfile = function(){
+        gapi.plus.people.get({userId: 'me', auth: gapi.client}, function(err, profile){
+            if(err){
+                console.log("profile error!");
+                return;
+            }
+            //console.log(profile.displayName, ':', profile.tagline);
+            
+            return  profile.id;
+            //return  profile.displayName;
+        });
+    };
+
+    app.get('/oauth2callback', function(req, res){
+        var code = req.query.code;
+        console.log(code);
+        console.log("now tokens");
+
+        gapi.client.getToken(code, function(err, tokens){
+            //console.log(tokens);
+            gapi.client.setCredentials(tokens);
+            //var googleid = getProfile();
+
+            gapi.plus.people.get({userId: 'me', auth: gapi.client}, function(err, profile){
+                if(err){
+                    req.flash('error', 'Login failure');
+                    return res.redirect('/login');
+                }
+                //console.log(profile.displayName, ':', profile.tagline);
+                //var googleid = profile.id;
+                //req.session.googleid = googleid;                //store googleid in session!
+                var name = profile.displayName;
+             /*   var email = profile.emails;
+                console.log("name: "+name);
+                console.log("email: "+email); */
+                //console.log(req.session.googleid);
+
+                User.get(name, function(err, user){
+                    if(err){
+                        req.flash('error', err);
+                        return res.redirect('/login');
+                    }
+                    if(user){   
+                        console.log('has this user!!');                 //if find same name already, should register
+                        req.flash('error', 'user existed! Please Register!!');
+                        return res.redirect('/reg');
+                    }
+                    else{
+                        var newUser = new User({
+                            name: name,
+                            password: null,
+                            email: null
+                        });
+                        newUser.save(function(err, user){
+                            if(err){
+                                req.flash('error', err);
+                                return res.redirect('/reg');
+                            }
+                            req.session.user = newUser;
+                            console.log("session user: "+req.session.user);
+                            req.flash('success', 'register successfully!');
+                            res.redirect('/');
+                        });
+                    }  
+                });  
+            });
+
+
+
+            //console.log('id: '+ googleid);
+            
+            
+        });
+
+    })
+
+
     app.get('/login', checkNotLogin);
 	app.get('/login', function(req,res){
         res.render('login', {
         	title: 'Login',
         	user:  req.session.user,
+            url: gapi.url,
         	success:  req.flash('success').toString(),
         	error:  req.flash('error').toString()
         });
