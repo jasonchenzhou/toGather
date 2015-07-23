@@ -2,6 +2,10 @@
 
 <!-- views/header.ejs -->
 
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/stylesheets/style1.css">
+
+
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
 	
@@ -34,6 +38,15 @@
             <% } %>
       
     
+        <span>
+            <form action="/search" method="GET">
+                <input type="text" name="keyword" placeholder="SEARCH" class="search"/>
+                <input type="date" name="startDate" class="search"/>
+                <input type="date" name="endDate" class="search"/>
+            </form>
+        </span>
+        
+
 </nav>
 
 

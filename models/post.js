@@ -1,9 +1,11 @@
 var mongodb = require('./db');
 var markdown = require('markdown').markdown;
 
-function Post(name, title, post){
-	this.name = name;
+function Post(name, title, loc, partyDate, post){
+	this.name = name;   //username
 	this.title = title;
+    this.loc = loc;      // add new location!
+    this.partyDate = partyDate;
 	this.post = post; //lines of article
 }
 
@@ -23,6 +25,8 @@ Post.prototype.save = function(callback){
     	name: this.name,
     	time: time,
     	title: this.title,
+        loc: this.loc,
+        partyDate: this.partyDate,
     	post: this.post,
         comments: []
     };
@@ -67,7 +71,7 @@ Post.getAll = function(name, callback){
 };
 
 //just one article
-Post.getOne = function(name, day, title, callback){
+Post.getOne = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -78,7 +82,9 @@ Post.getOne = function(name, day, title, callback){
             collection.findOne({
                 "name":  name,
                 "time.day":  day,
-                "title":  title
+                "title":  title,
+                "loc": loc,
+                "partyDate": partyDate
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -94,7 +100,7 @@ Post.getOne = function(name, day, title, callback){
     });
 };
 
-
+//ten of this user!
 Post.getTen = function(name, page, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
@@ -122,8 +128,47 @@ Post.getTen = function(name, page, callback){
     });
 };
 
+//search 10 results a page according loc and start and end date
+Post.search = function(loc, page, startDate, endDate, callback){
+    mongodb.open(function(err, db){
+        if(err)  return  callback(err);
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            console.log("into search post!!~~");
+            var pattern = new RegExp(loc, "i");
+            var query = {
+                "loc": pattern,
+                "partyDate": {$gte: startDate},
+                "partyDate": {$lte: endDate}
+            };
+           
+            //console.log(query);
+            collection.count(query, function(err, total){
+                console.log("number: " + total);
+                collection.find(query, {
+                    skip: (page - 1) * 10,
+                    limit: 10
+                }).sort({time: -1}).toArray(function(err, docs){
+                    mongodb.close();
+                    if(err)  return  callback(err);
+                    docs.forEach(function(doc){
+                        doc.post = markdown.toHTML(doc.post);
+                    });
 
-Post.edit = function(name, day, title, callback){
+                    console.log(docs);
+
+                    callback(null, docs, total);
+                });
+            });   
+        });
+    });
+};
+
+
+Post.edit = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return  callback(err);
         db.collection('posts', function(err, collection){
@@ -134,7 +179,9 @@ Post.edit = function(name, day, title, callback){
             collection.findOne({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -145,7 +192,8 @@ Post.edit = function(name, day, title, callback){
 };
 
 
-Post.update = function(name, day, title, post, callback){
+Post.update = function(name, day, title, loc, partyDate, post, callback){
+   // console.log("enter here!");
     mongodb.open(function(err, db){
         if(err){
             console.log('failed open db!');
@@ -159,7 +207,9 @@ Post.update = function(name, day, title, post, callback){
             collection.update({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
             }, {
                 $set: {post: post}
             }, function(err){
@@ -174,8 +224,32 @@ Post.update = function(name, day, title, post, callback){
     });
 };
 
+//search party by location!
+/*Post.search = function(keyword, callback){
+    mongodb.open(function(err, db){
+        if(err)  return  callback(err);
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            var pattern = new RegExp(keyword, "i");
+            collection.find({"loc": pattern}, {
+                "name": 1,
+                "time": 1,
+                "title": 1,
+                "loc": 1
+            }).sort({time: -1}).toArray(function(err, docs){
+                mongodb.close();
+                if(err)  return  callback(err);
+                callback(null, docs);
+            });
+        });
+    });
+};
+*/
 
-Post.remove = function(name, day, title, callback){
+Post.remove = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
         if(err)  return callback(err);
         db.collection('posts', function(err, collection){
@@ -186,7 +260,9 @@ Post.remove = function(name, day, title, callback){
             collection.remove({
                 "name": name,
                 "time.day": day,
-                "title": title
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
             }, {w: 1},
             function(err){
                 mongodb.close();

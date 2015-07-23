@@ -1,6 +1,8 @@
 <%- include header %>
 <%- include head %>
 
+<h1>Reg page</h1>
+
 <form method="post">
 <div class="reg-forms">
 
@@ -8,6 +10,11 @@
 <div class="input-group">
   <span class="input-group-addon" id="sizing-addon1">Name</span>
   <input name="name" type="text" class="form-control" placeholder="name" aria-describedby="sizing-addon1" name="name">
+</div>
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon1">Googleid</span>
+  <input name="googleid" value="<%= googleid %>" type="text" class="form-control"  aria-describedby="sizing-addon1">
+  <p>(omit)</p>
 </div>
   <div class="input-group">
   <span class="input-group-addon" id="sizing-addon1">Password</span>
@@ -24,15 +31,23 @@
 
   
   <button type="submit" value="Register" class="btn btn-default">Submit</button>
-  <!--
+</form>
+</div>
+
+
+<!-- 
     Username:  <input type="text" name="name"/><br/>
     Password:  <input type="password" name="password"/><br/>
+    <p><%= googleid %></p>
+    Googleid:  <input type="text" name="googleid" value="<%- googleid %>"/><br/>
     Confirm password:  <input type="password" name="password-repeat"/><br/>
     Mailbox:   <input type="email" name="email"/><br/>
                <input type="submit" value="Register"/>
-			   --!>
-</form>
-</div>
+			   
+-->
+
+
+
 
 
 <%- include footer %>

@@ -1,7 +1,8 @@
 var crypto = require('crypto');
 var User = require('../models/user.js');
 var Post = require('../models/post.js');
-var Comment = require('../models/comments.js')
+var Comment = require('../models/comments.js');
+var gapi = require('../models/gapi.js');
 //var express = require('express');
 //var router = express.Router();
 
@@ -21,12 +22,15 @@ module.exports = function(app){
                 posts: posts,
                 success:  req.flash('success').toString(),
                 error:  req.flash('error').toString()
-            });
+            });  
         });
 	});
 
     app.get('/reg', checkNotLogin);
 	app.get('/reg', function(req, res){
+
+      //  console.log(gapi.url);
+
 		res.render('reg', {
 			title: 'register',
 			user:  req.session.user,
@@ -76,11 +80,100 @@ module.exports = function(app){
         });   
 	});
 
+/*
+var getData = function(){
+    gapi.oauth.userinfo.get().withAuthClient(gapi.client).execute(function(err, results){
+        console.log(results);
+    });
+    gapi.cal.calendarList.list().withAuthClient(gapi.client).execute(function(err, results){
+        console.log(results);
+    });
+};
+*/
+
+    var getProfile = function(){
+        gapi.plus.people.get({userId: 'me', auth: gapi.client}, function(err, profile){
+            if(err){
+                console.log("profile error!");
+                return;
+            }
+            //console.log(profile.displayName, ':', profile.tagline);
+            
+            return  profile.id;
+            //return  profile.displayName;
+        });
+    };
+
+    app.get('/oauth2callback', function(req, res){
+        var code = req.query.code;
+        console.log(code);
+        console.log("now tokens");
+
+        gapi.client.getToken(code, function(err, tokens){
+            //console.log(tokens);
+            gapi.client.setCredentials(tokens);
+            //var googleid = getProfile();
+
+            gapi.plus.people.get({userId: 'me', auth: gapi.client}, function(err, profile){
+                if(err){
+                    req.flash('error', 'Login failure');
+                    return res.redirect('/login');
+                }
+                //console.log(profile.displayName, ':', profile.tagline);
+                //var googleid = profile.id;
+                //req.session.googleid = googleid;                //store googleid in session!
+                var name = profile.displayName;
+             /*   var email = profile.emails;
+                console.log("name: "+name);
+                console.log("email: "+email); */
+                //console.log(req.session.googleid);
+
+                User.get(name, function(err, user){
+                    if(err){
+                        req.flash('error', err);
+                        return res.redirect('/login');
+                    }
+                 /*   if(user){   
+                        console.log('has this user!!');                 //if find same name already, should register
+                        req.flash('error', 'user existed! Please Register!!');
+                        return res.redirect('/reg');
+                    } */
+                    else{
+                        var newUser = new User({
+                            name: name,
+                            password: null,
+                            email: null
+                        });
+                        newUser.save(function(err, user){
+                            if(err){
+                                req.flash('error', err);
+                                return res.redirect('/reg');
+                            }
+                            req.session.user = newUser;
+                            console.log("session user: "+req.session.user);
+                            req.flash('success', 'register successfully!');
+                            res.redirect('/');
+                        });
+                    }  
+                });  
+            });
+
+
+
+            //console.log('id: '+ googleid);
+            
+            
+        });
+
+    })
+
+
     app.get('/login', checkNotLogin);
 	app.get('/login', function(req,res){
         res.render('login', {
         	title: 'Login',
         	user:  req.session.user,
+            url: gapi.url,
         	success:  req.flash('success').toString(),
         	error:  req.flash('error').toString()
         });
@@ -89,7 +182,7 @@ module.exports = function(app){
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
 
-        console.log("log in now!!");
+       // console.log("log in now!!");
 
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
@@ -124,7 +217,7 @@ module.exports = function(app){
     app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
         var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.post);
+        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.partyDate, req.body.post);
         post.save(function(err){
             if(err){
                 req.flash('error', err);
@@ -159,6 +252,53 @@ module.exports = function(app){
         res.redirect('/upload');
     });
 
+
+    app.get('/search', function(req, res){
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.search(req.query.keyword, page, req.query.startDate, req.query.endDate, function(err, posts, total){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('/');
+            }
+         //   console.log("~~~~~~~~~~~~~");
+            res.render('search', {
+                title: "SEARCH: " + req.query.keyword,
+                user: req.session.user,
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page-1)*10 + posts.length) == total,
+                posts: posts,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    });
+
+
+
+/*
+
+var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.getTen(null, page, function(err, posts, total){
+            if(err)  posts = [];
+            res.render('index', {
+                title: 'home page',
+                user:  req.session.user,
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page - 1)*10 + posts.length) == total,
+                posts: posts,
+                success:  req.flash('success').toString(),
+                error:  req.flash('error').toString()
+            });  
+        });
+
+
+
+*/
+
+
+
     app.get('/u/:name', function(req, res){
         var page = req.query.p ? parseInt(req.query.p) : 1;
         //see whether user existed
@@ -187,20 +327,23 @@ module.exports = function(app){
     });
 
 
-    app.get('/u/:name/:day/:title', checkLogin);
-    app.get('/u/:name/:day/:title', function(req, res){
+    app.get('/u/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
 
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
             }
+          //  console.log(post);
+           // console.log('!!!!!!!!!');
             res.render('article', {
                 //title: 'Edit',
                 title: req.params.title,
                 post: post,
                 user: req.session.user,
+                loc: req.params.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -208,7 +351,8 @@ module.exports = function(app){
     });
 
 
-    app.post('/u/:name/:day/:title', function(req, res){
+//post comment info
+    app.post('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
         var date = new Date(),
             time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
             var comment = {
@@ -219,7 +363,10 @@ module.exports = function(app){
                 content: req.body.content
             };
 
-            var newComment = new Comment(req.params.name, req.params.day, req.params.title, comment);
+            var newComment = new Comment(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, comment);
+            
+            //console.log(newComment);
+
             newComment.save(function(err){
                 if(err){
                     req.flash('error', err);
@@ -231,10 +378,10 @@ module.exports = function(app){
     });
  
 
-    app.get('/edit/:name/:day/:title', checkLogin);
-    app.get('/edit/:name/:day/:title', function(req, res){
+    app.get('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, function(err, post){
+        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
@@ -243,6 +390,7 @@ module.exports = function(app){
                 title: 'Edit',
                 post: post,
                 user: req.session.user,
+                loc: post.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -250,15 +398,19 @@ module.exports = function(app){
     });
 
 
-    app.post('/edit/:name/:day/:title', checkLogin);
-    app.post('/edit/:name/:day/:title', function(req, res){
+    app.post('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
+  /*  app.post('/edit/:name/:day/:title/:loc', function(next){
+        console.log("haha!");
+       // next();
+    }); */
+    app.post('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
 
-        //console.log(currentUser);
-        //console.log("start post edit!!!")
+       // console.log(currentUser);
+       // console.log("start post edit!!!")
 
-        Post.update(currentUser.name, req.params.day, req.params.title, req.body.post, function(err){
-            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title);
+        Post.update(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, req.body.post, function(err){
+            var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title + '/' + req.params.loc + '/' + req.params.partyDate);
             if(err){
                 req.flash('error', err);
                 return  res.redirect(url);
@@ -269,10 +421,10 @@ module.exports = function(app){
     });
 
 
-    app.get('/remove/:name/:day/:title', checkLogin);
-    app.get('/remove/:name/:day/:title', function(req, res){
+    app.get('/remove/:name/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/remove/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
-        Post.remove(currentUser.name, req.params.day, req.params.title, function(err){
+        Post.remove(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err){
             if(err){
                 req.flash('error', err);
                 return res.redirect('back');

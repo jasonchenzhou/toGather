@@ -22,6 +22,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(flash());
 
+/*
+app.set('views', path.join(__dirname, 'views'));
+app.engine('.html', require('ejs').__express);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
+app.use(flash());
+*/
+
+
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
