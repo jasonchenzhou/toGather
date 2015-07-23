@@ -30,3 +30,20 @@ article a:hover{color:#333333;text-decoration:underline;}
 	margin:0.5em 0;
 }
 
+#map-canvas {
+        height: 50%;
+        width: 50%;
+        margin: 0;
+        padding: 0;
+      }
+
+#pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }

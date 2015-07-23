@@ -133,11 +133,11 @@ var getData = function(){
                         req.flash('error', err);
                         return res.redirect('/login');
                     }
-                    if(user){   
+                 /*   if(user){   
                         console.log('has this user!!');                 //if find same name already, should register
                         req.flash('error', 'user existed! Please Register!!');
                         return res.redirect('/reg');
-                    }
+                    } */
                     else{
                         var newUser = new User({
                             name: name,
