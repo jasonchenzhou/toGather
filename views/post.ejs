@@ -2,18 +2,18 @@
 
 <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>  -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-<script  src="/javascripts/map.js"></script>
+<script  src="/javascripts/postMap.js"></script>
 
 
-<form method="post" >
+<!--<form method="post" >  -->
+<form method='post' enctype='multipart/form-data'>
     Title: <br/>
     <input type="text" name="title"/><br/>
     Location: <br/>
-    <input type="text" name="loc"/><br/>
-    Auto loc: <br/>
-    <input type="text" name="autoloc" id="autoLoc" class="autoLoc" placeholder="Enter a location" /><br/>
+    <input type="text" name="loc" id="autoLoc"  placeholder="Enter a location" /> <input type="text" name="latlng" id="latlng" placeholder="Latitude & Longtitude" /><br/>
     Party Date: <br/>
     <input type="date" name="partyDate"><br/>
+    Picture: <input type="file" name='pic'/><br/>
     Paragraph: <br/>
     <textarea name="post" rows="20" cols="100"></textarea><br/>
     <input type="submit" value="post"/>

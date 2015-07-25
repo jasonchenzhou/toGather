@@ -1,11 +1,13 @@
 var mongodb = require('./db');
 var markdown = require('markdown').markdown;
 
-function Post(name, title, loc, partyDate, post){
+function Post(name, title, loc, latlng, partyDate, pic, post){
 	this.name = name;   //username
 	this.title = title;
     this.loc = loc;      // add new location!
+    this.latlng = latlng;
     this.partyDate = partyDate;
+    this.pic = pic;
 	this.post = post; //lines of article
 }
 
@@ -26,7 +28,9 @@ Post.prototype.save = function(callback){
     	time: time,
     	title: this.title,
         loc: this.loc,
+        latlng: this.latlng,
         partyDate: this.partyDate,
+        pic: this.pic,
     	post: this.post,
         comments: []
     };
@@ -46,6 +50,10 @@ Post.prototype.save = function(callback){
     	});
     });
 };
+
+
+
+
 
 //all articles of a user
 Post.getAll = function(name, callback){
@@ -118,9 +126,9 @@ Post.getTen = function(name, page, callback){
                 }).sort({time: -1}).toArray(function(err, docs){
                     mongodb.close();
                     if(err)  return  callback(err);
-                    docs.forEach(function(doc){
+               /*     docs.forEach(function(doc){
                         doc.post = markdown.toHTML(doc.post);
-                    });
+                    });  */
                     callback(null, docs, total);
                 });
             });
@@ -137,7 +145,7 @@ Post.search = function(loc, page, startDate, endDate, callback){
                 mongodb.close();
                 return  callback(err);
             }
-            console.log("into search post!!~~");
+          //  console.log("into search post!!~~");
             var pattern = new RegExp(loc, "i");
             var query = {
                 "loc": pattern,
@@ -147,7 +155,7 @@ Post.search = function(loc, page, startDate, endDate, callback){
            
             //console.log(query);
             collection.count(query, function(err, total){
-                console.log("number: " + total);
+             //   console.log("number: " + total);
                 collection.find(query, {
                     skip: (page - 1) * 10,
                     limit: 10
@@ -158,7 +166,7 @@ Post.search = function(loc, page, startDate, endDate, callback){
                         doc.post = markdown.toHTML(doc.post);
                     });
 
-                    console.log(docs);
+                   // console.log(docs);
 
                     callback(null, docs, total);
                 });

@@ -3,6 +3,10 @@ var User = require('../models/user.js');
 var Post = require('../models/post.js');
 var Comment = require('../models/comments.js');
 var gapi = require('../models/gapi.js');
+
+var qt   = require('quickthumb');
+
+
 //var express = require('express');
 //var router = express.Router();
 
@@ -217,7 +221,7 @@ var getData = function(){
     app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
         var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.partyDate, req.body.post);
+        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.latlng, req.body.partyDate, req.body.pic, req.body.post);
         post.save(function(err){
             if(err){
                 req.flash('error', err);
@@ -235,7 +239,7 @@ var getData = function(){
         res.redirect('/');
 	});
 
-
+/*
     app.get('/upload', checkLogin);
     app.get('/upload', function(req, res){
         res.render('upload', {
@@ -252,6 +256,11 @@ var getData = function(){
         res.redirect('/upload');
     });
 
+*/
+
+
+
+
 
     app.get('/search', function(req, res){
         var page = req.query.p ? parseInt(req.query.p) : 1;
@@ -260,6 +269,7 @@ var getData = function(){
                 req.flash('error', err);
                 return  res.redirect('/');
             }
+            console.log(posts);
          //   console.log("~~~~~~~~~~~~~");
             res.render('search', {
                 title: "SEARCH: " + req.query.keyword,

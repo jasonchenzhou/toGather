@@ -1,13 +1,51 @@
 <%- include header %>
+<style>
+
+      #map-canvas {
+        height: 50%;
+        width: 50%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #results {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        margin-top: -195px;
+        height: 380px;
+        width: 200px;
+        padding: 5px;
+        z-index: 5;
+        border: 1px solid #999;
+        background: #fff;
+      }
+    </style>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script  src="/javascripts/search.js"></script>
+
+
 <ul class="archive">
-<% var lastYear = 0%>
+ <% var lastYear = 0%>  
 <% posts.forEach(function(post, index){ %>
     <% if(lastYear != post.time.year){ %>
         <li><h3><%= post.time.year %></h3></li>
     <% lastYear = post.time.year} %>
         <li><time><%= post.time.day %></time></li>
         <li><a href="/u/<%= post.name %>/<%= post.time.day %>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>"><%= post.title %></a></li>
+        <li><%=  post.pic %></li>
     <% }) %>
 </ul>
+
+<!--
+    <div id="map-canvas"></div>
+    <div id="results" >
+      <h2>Results</h2>
+      <ul id="places"></ul>
+    </div>
+-->
+
 <%- include paging %>
 <%- include footer %>

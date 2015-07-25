@@ -19,6 +19,9 @@
     "connect-flash": "0.1.1",
     "markdown":  "0.5.0",
     "multer": "0.1.6",
-    "googleapis": "*"
+    "googleapis": "*",
+    "gridfs-stream": "*",
+    "formidable": "*",
+    "quickthumb": "*"
   }
 }
