@@ -221,7 +221,9 @@ var getData = function(){
     app.post('/post', checkLogin);
 	app.post('/post', function(req, res){
         var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.latlng, req.body.partyDate, req.body.pic, req.body.post);
+        console.log("pic: "+req.files.pic);
+        console.log("title: "+req.body.title);
+        var post = new Post(currentUser.name, req.body.title, req.body.loc, req.body.latlng, req.body.partyDate, req.files.pic, req.body.post);
         post.save(function(err){
             if(err){
                 req.flash('error', err);
@@ -341,7 +343,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     app.get('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
 
         var currentUser = req.session.user;
-        Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
+        Post.getOne(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
