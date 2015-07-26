@@ -162,10 +162,10 @@ Post.search = function(loc, page, startDate, endDate, callback){
                 }).sort({time: -1}).toArray(function(err, docs){
                     mongodb.close();
                     if(err)  return  callback(err);
-                    docs.forEach(function(doc){
+                   /* docs.forEach(function(doc){
                         doc.post = markdown.toHTML(doc.post);
                     });
-
+                   */
                    // console.log(docs);
 
                     callback(null, docs, total);
