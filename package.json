@@ -22,6 +22,6 @@
     "googleapis": "*",
     "gridfs-stream": "*",
     "formidable": "*",
-    "quickthumb": "*",
+    "quickthumb": "*"
   }
 }
