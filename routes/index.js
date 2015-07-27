@@ -174,6 +174,9 @@ var getData = function(){
 
     app.get('/login', checkNotLogin);
 	app.get('/login', function(req,res){
+
+console.log("log in now!!");
+
         res.render('login', {
         	title: 'Login',
         	user:  req.session.user,
@@ -184,16 +187,13 @@ var getData = function(){
 	});
 
 
-    app.get('/admin', function(req,res){
-        res.render('admin', {
-        });
-    });
+   
 
 
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
 
-       // console.log("log in now!!");
+        
 
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
@@ -318,34 +318,6 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 
 
-    app.get('/u/:name', function(req, res){
-        var page = req.query.p ? parseInt(req.query.p) : 1;
-        //see whether user existed
-        User.get(req.params.name, function(err, user){
-            if(!user){
-                req.flash('error', 'User not existed!');
-                return  res.redirect('/');
-            }
-            Post.getTen(user.name, page, function(err, posts, total){
-                if(err){
-                    req.flash('error', err);
-                    return  res.redirect('/');
-                }
-                res.render('user', {
-                    title: user.name,
-                    posts: posts,
-                    page: page,
-                    isFirstPage: (page - 1) == 0,
-                    isLastPage: ((page - 1)*10 + posts.length) == total,
-                    user: req.session.user,
-                    success:  req.flash('success').toString(),
-                    error:  req.flash('error').toString()
-                });
-            });
-        });
-    });
-
-
     app.get('/u/:name/:day/:title/:loc/:partyDate', checkLogin);
     app.get('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
 
@@ -418,10 +390,6 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 
     app.post('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
-  /*  app.post('/edit/:name/:day/:title/:loc', function(next){
-        console.log("haha!");
-       // next();
-    }); */
     app.post('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
 
@@ -452,6 +420,107 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
             res.redirect('/');
         });
     });
+
+
+
+    app.get('/admin', function(req, res){
+        req.session.user = "admin";
+        User.getAll(function(err, users){
+            if(!users){
+                req.flash('error', 'Users not exist!');
+                return res.redirect('/');
+            }
+
+            res.render('admin', {
+                users: users
+            });
+        });
+    });
+
+
+
+    app.get('/admin/:name', function(req, res){
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        //see whether user existed
+        User.get(req.params.name, function(err, user){
+            if(!user){
+                req.flash('error', 'User not existed!');
+                return  res.redirect('/');
+            }
+
+            Post.getAll(user.name, function(err, posts, total){
+                if(err){
+                    req.flash('error', err);
+                    return  res.redirect('/');
+                }
+                res.render('adminArticle', {
+                    user: req.session.user,
+                    posts: posts,
+                    success:  req.flash('success').toString(),
+                    error:  req.flash('error').toString()
+                });
+            });
+        });
+    });
+
+
+    app.get('/adminRemoveUser/:username', function(req, res){
+        User.remove(req.params.username, function(err){
+            if(err){
+                req.flash('error', err);
+                return res.redirect('back');
+            }
+            req.flash('success', 'delete success!');
+            res.direct('/admin');
+        })
+    })
+
+    app.get('/adminEditArticle/:day/:title/:loc/:partyDate', function(req, res){
+        Post.adminEdit(req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('back');
+            }
+            res.render('adminEdit', {
+                user: "admin",
+                title: 'Admin Edit',
+                post: post,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    })
+
+
+
+    app.post('/adminEditArticle/:day/:title/:loc/:partyDate', checkLogin);
+    app.post('/adminEditArticle/:day/:title/:loc/:partyDate', function(req, res){
+
+        Post.adminUpdate(req.params.day, req.params.title, req.params.loc, req.params.partyDate, req.body.post, function(err){
+            var url = encodeURI('/admin/');
+            if(err){
+                req.flash('error', err);
+                return  res.redirect(url);
+            }
+            req.flash('success', 'Edit success!');
+              res.redirect(url);
+        });
+    });
+
+
+
+    app.get('/adminRemoveArticle/:day/:title/:loc/:partyDate', checkLogin);
+    app.get('/adminRemoveArticle/:day/:title/:loc/:partyDate', function(req, res){
+        Post.adminRemove(req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err){
+            if(err){
+                req.flash('error', err);
+                return res.redirect('back');
+            }
+            req.flash('success', 'delete success!');
+            res.redirect('/admin');
+        });
+    });
+
 
 
     function checkLogin(req, res, next){

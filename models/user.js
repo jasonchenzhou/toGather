@@ -54,7 +54,7 @@ User.get = function(name, callback){
 };
 
 
-User.get = function(name, callback){
+User.getAll = function(callback){
 	mongodb.open(function(err, db){
 		if(err)  return callback(err);
 		db.collection('users', function(err, collection){
@@ -62,41 +62,48 @@ User.get = function(name, callback){
 				mongodb.close();
 				return callback(err);
 			}
-			collection.findOne({name: name}, function(err, user){
-				mongodb.close();
-				if(err)  return callback(err);
-				callback(null, user);
-			});
+			collection.find().sort({name: -1}).toArray(function(err, users){
+                mongodb.close();
+                if(err)  return  callback(err);
+                callback(null, users);
+            });
 		});
 	});
-};
-
-
-
-/*
-Post.remove = function(name, day, title, loc, partyDate, callback){
-    mongodb.open(function(err, db){
-        if(err)  return callback(err);
-        db.collection('posts', function(err, collection){
-            if(err){
-                mongodb.close();
-                return callback(err);
-            }
-            collection.remove({
-                "name": name,
-                "time.day": day,
-                "title": title,
-                "loc": loc,
-                "partyDate": partyDate
-            }, {w: 1},
-            function(err){
-                mongodb.close();
-                if(err)  return callback();
-                callback(null);
-            })
-        })
-    })
 }
 
 
-User.remove = function(name)*/
+
+User.remove = function(name, callback){
+	mongodb.open(function(err, db){
+		if(err)  return callback(err);
+        db.collection('posts', function(err, collection){    //delete posts of this user!
+        	if(err){
+        		mongodb.close();
+        		return callback(err);
+        	}
+        	collection.remove({
+        		"name": name
+        	}, function(err){
+        		mongodb.close();
+        		if(err)  return callback(err);
+        		callback(null);
+        	})
+        })
+
+
+		db.collection('users', function(err, collection){    //delete info of this user!
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			collection.remove({
+				"name": name
+			}, {w: 1},
+			function(err){
+				mongodb.close();
+				if(err)  return callback(err);
+				callback(null);
+			})
+		})
+	})
+}

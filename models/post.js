@@ -200,6 +200,30 @@ Post.edit = function(name, day, title, loc, partyDate, callback){
 };
 
 
+Post.adminEdit = function(day, title, loc, partyDate, callback){
+    mongodb.open(function(err, db){
+        if(err)  return  callback(err);
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            collection.findOne({
+                "time.day": day,
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
+            }, function(err, doc){
+                mongodb.close();
+                if(err)  return callback(err);
+                callback(null, doc);
+            });
+        });
+    });
+};
+
+
+
 Post.update = function(name, day, title, loc, partyDate, post, callback){
    // console.log("enter here!");
     mongodb.open(function(err, db){
@@ -232,30 +256,42 @@ Post.update = function(name, day, title, loc, partyDate, post, callback){
     });
 };
 
-//search party by location!
-/*Post.search = function(keyword, callback){
+
+
+
+Post.adminUpdate = function(day, title, loc, partyDate, post, callback){
+   // console.log("enter here!");
     mongodb.open(function(err, db){
-        if(err)  return  callback(err);
+        if(err){
+            console.log('failed open db!');
+            return  callback(err);    
+        }
         db.collection('posts', function(err, collection){
             if(err){
                 mongodb.close();
                 return  callback(err);
             }
-            var pattern = new RegExp(keyword, "i");
-            collection.find({"loc": pattern}, {
-                "name": 1,
-                "time": 1,
-                "title": 1,
-                "loc": 1
-            }).sort({time: -1}).toArray(function(err, docs){
+            collection.update({
+                "time.day": day,
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
+            }, {
+                $set: {post: post}
+            }, function(err){
                 mongodb.close();
-                if(err)  return  callback(err);
-                callback(null, docs);
+                if(err){
+                    console.log('update failed!!!!!!');
+                    return callback(err);
+                }
+                callback(null);
             });
         });
     });
 };
-*/
+
+
+
 
 Post.remove = function(name, day, title, loc, partyDate, callback){
     mongodb.open(function(err, db){
@@ -281,4 +317,28 @@ Post.remove = function(name, day, title, loc, partyDate, callback){
     })
 }
 
+
+
+Post.adminRemove = function(day, title, loc, partyDate, callback){
+    mongodb.open(function(err, db){
+        if(err)  return callback(err);
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return callback(err);
+            }
+            collection.remove({
+                "time.day": day,
+                "title": title,
+                "loc": loc,
+                "partyDate": partyDate
+            }, {w: 1},
+            function(err){
+                mongodb.close();
+                if(err)  return callback();
+                callback(null);
+            })
+        })
+    })
+}
 
