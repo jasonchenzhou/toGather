@@ -19,7 +19,11 @@ var app = express();
 
 app.set('port', process.env.PORT || '3000');
 app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'ejs');
+//app.set('view engine', 'html');          //set to html extension!!!
+//app.engine('html', ejs.renderFile);
+
 app.use(flash());
 
 /*

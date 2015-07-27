@@ -4,50 +4,12 @@
 <h1>Reg page</h1>
 
 <form method="post">
-<div class="reg-forms">
-
-<div class="col-sm-4" style="background-color:lavender;">
-<div class="input-group">
-  <span class="input-group-addon" id="sizing-addon1">Name</span>
-  <input name="name" type="text" class="form-control" placeholder="name" aria-describedby="sizing-addon1" name="name">
-</div>
-<div class="input-group">
-  <span class="input-group-addon" id="sizing-addon1">Googleid</span>
-  <input name="googleid" value="<%= googleid %>" type="text" class="form-control"  aria-describedby="sizing-addon1">
-  <p>(omit)</p>
-</div>
-  <div class="input-group">
-  <span class="input-group-addon" id="sizing-addon1">Password</span>
-  <input type="password" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password">
- </div>
-  <div class="input-group">
-  <span class="input-group-addon" id="sizing-addon1">Confirm Password</span>
-  <input type="password" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password-repeat">
- </div>
-  <div class="input-group">
-  <span class="input-group-addon" id="sizing-addon1">Mailbox</span>
-  <input type="text" class="form-control" placeholder="email@domain.com" aria-describedby="sizing-addon1" name="email">
-  </div>
-
-  
-  <button type="submit" value="Register" class="btn btn-default">Submit</button>
+  用户名：  <input type="text" name="name"/><br />
+  密码：    <input type="password" name="password"/><br />
+  确认密码：<input type="password" name="password-repeat"/><br />
+  邮箱：    <input type="email" name="email"/><br />
+           <input type="submit" value="注册"/>
 </form>
-</div>
-
-
-<!-- 
-    Username:  <input type="text" name="name"/><br/>
-    Password:  <input type="password" name="password"/><br/>
-    <p><%= googleid %></p>
-    Googleid:  <input type="text" name="googleid" value="<%- googleid %>"/><br/>
-    Confirm password:  <input type="password" name="password-repeat"/><br/>
-    Mailbox:   <input type="email" name="email"/><br/>
-               <input type="submit" value="Register"/>
-			   
--->
-
-
-
 
 
 <%- include footer %>

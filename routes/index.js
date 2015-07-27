@@ -154,7 +154,7 @@ var getData = function(){
                                 return res.redirect('/reg');
                             }
                             req.session.user = newUser;
-                            console.log("session user: "+req.session.user);
+                            console.log("session user: "+req.session.user.name);
                             req.flash('success', 'register successfully!');
                             res.redirect('/');
                         });
@@ -182,6 +182,13 @@ var getData = function(){
         	error:  req.flash('error').toString()
         });
 	});
+
+
+    app.get('/admin', function(req,res){
+        res.render('admin', {
+        });
+    });
+
 
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
@@ -272,7 +279,7 @@ var getData = function(){
                 return  res.redirect('/');
             }
             console.log(posts);
-         //   console.log("~~~~~~~~~~~~~");
+            console.log("~~~~~~~~~~~~~");
             res.render('search', {
                 title: "SEARCH: " + req.query.keyword,
                 user: req.session.user,

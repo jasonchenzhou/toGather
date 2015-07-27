@@ -280,3 +280,5 @@ Post.remove = function(name, day, title, loc, partyDate, callback){
         })
     })
 }
+
+

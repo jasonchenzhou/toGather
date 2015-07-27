@@ -1,9 +1,9 @@
- var posts = <% posts %>;
+ var posts = <%= posts %>;
 
  var map, placesList;
 
 function initialize() {
-	alert('<%- JSON.stringify(posts) %>');
+	
 
   console.log("posts: ");
   console.log(posts);
@@ -20,6 +20,7 @@ function initialize() {
 
 
   for (var i = 0; i < posts.length; i++) {
+    alert('<%= post.title %>');
   	var post = posts[i];
     var marker = new google.maps.Marker({map: map, title: post.name, position: post.latlng});
 
