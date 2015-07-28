@@ -26,5 +26,7 @@ function initialize() {
 
     placesList.innerHTML += '<li>' + place.name + '</li>';    //add to result list
   }
+  
+  
 
 google.maps.event.addDomListener(window, 'load', initialize);

@@ -47,3 +47,7 @@ article a:hover{color:#333333;text-decoration:underline;}
         text-overflow: ellipsis;
         width: 400px;
       }
+	  
+#loc {
+	center;
+}
