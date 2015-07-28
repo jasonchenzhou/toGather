@@ -8,19 +8,36 @@
 </head>
 
 <%- include header %>
-<!--
-<main>
+<div class="row">
+  <div class="col-md-4"> </div>
+<div class="col-md-4" >
+<main >
 <% posts.forEach(function(post, index){ %>
     <p><h2><a href="/u/<%= post.name %>/<%= post.time.day %>/<%= post.title %> "><%= post.title %></a></h2></p>
+	<div class="posts" style="border: 2px solid black">
     <p class="info">
         Author: <a href="/u/<%= post.name %>"><%= post.name %></a>
-        Date: <%= post.time.minute %>
+        Date: <%= post.time.day %>
     </p>
+	<div class='loc'>
+	<iframe width="400" height="300" frameborder="0" style="border:0"
+	src="https://www.google.com/maps/embed/v1/place?q=<%=post.loc%>&key=
+	AIzaSyBRByzlgnKYE_2JERgRv2MtNxP_Fu6CEZU" allowfullscreen></iframe>
+	</div>
+	</br>
     <p><%- post.post %></p>
+	</div>
 <% }) %>
 
 </main>
--->
+
+<footer>
+        <% include footer %>
+</footer>
+</div>
+</div>
+  <div class="col-md-4"></div>
+
     </div>
     <div class="col-sm-4">
  
@@ -44,7 +61,5 @@ src="https://www.google.com/maps/embed/v1/place?q=Iraqi+Kurdistan,+Erbil,+Iraq&k
 
 <%- include paging %>
 
-<footer>
-        <% include footer %>
-</footer>
+
 
