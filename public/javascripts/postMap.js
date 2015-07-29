@@ -34,6 +34,10 @@ function initialize() {
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
     } else {
+
+     // alert(place.geometry.location[1]);
+     // alert("!!");
+
       document.getElementById('latlng').value = place.geometry.location;
       map.setCenter(place.geometry.location);
       map.setZoom(17);  // Why 17? Because it looks good.

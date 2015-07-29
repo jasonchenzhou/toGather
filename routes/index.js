@@ -30,6 +30,40 @@ module.exports = function(app){
         });
 	});
 
+
+
+
+    app.post('/', function(req, res){
+ 
+       // console.log(req.body.keyword);
+       // console.log(req.body.searchlatlng);
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.search(req.body.keyword, page, req.body.startDate, req.body.endDate, function(err, posts, total){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('/');
+            }
+         //   console.log(posts);
+         //   console.log("~~~~~~~~~~~~~");
+            res.render('search', {
+                title: JSON.stringify("SEARCH: " + req.query.keyword),
+                user: req.session.user,
+                searchlatlng: JSON.stringify(req.body.searchlatlng),
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page-1)*10 + posts.length) == total,
+                posts: JSON.stringify(posts),
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+
+    });
+
+
+
+
+
     app.get('/reg', checkNotLogin);
 	app.get('/reg', function(req, res){
 
@@ -192,9 +226,6 @@ console.log("log in now!!");
 
     app.post('/login', checkNotLogin);
 	app.post('/login', function(req, res){
-
-        
-
         var md5 = crypto.createHash('md5'),
             password = md5.update(req.body.password).digest('hex');
         //check whether username existed
@@ -271,27 +302,7 @@ console.log("log in now!!");
 
 
 
-    app.get('/search', function(req, res){
-        var page = req.query.p ? parseInt(req.query.p) : 1;
-        Post.search(req.query.keyword, page, req.query.startDate, req.query.endDate, function(err, posts, total){
-            if(err){
-                req.flash('error', err);
-                return  res.redirect('/');
-            }
-            console.log(posts);
-            console.log("~~~~~~~~~~~~~");
-            res.render('search', {
-                title: "SEARCH: " + req.query.keyword,
-                user: req.session.user,
-                page: page,
-                isFirstPage: (page - 1) == 0,
-                isLastPage: ((page-1)*10 + posts.length) == total,
-                posts: posts,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString()
-            });
-        });
-    });
+    
 
 
 
@@ -322,12 +333,12 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     app.get('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
 
         var currentUser = req.session.user;
-        Post.getOne(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
+        Post.getOne(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
                 return  res.redirect('back');
             }
-          //  console.log(post);
+            console.log(post.name);
            // console.log('!!!!!!!!!');
             res.render('article', {
                 //title: 'Edit',
@@ -520,6 +531,34 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
             res.redirect('/admin');
         });
     });
+
+
+
+
+
+
+
+
+
+
+app.get('/jsonp',function(req,res,next){ // #返回jsonp  
+   res.jsonp({status:'jsonp'});  
+});  
+  
+app.get('/json',function(req,res,next){  // #返回json  
+    res.jsonp({status:'json'});  
+});  
+  
+
+
+
+
+
+
+
+
+
+
 
 
 

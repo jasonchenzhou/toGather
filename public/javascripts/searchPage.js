@@ -1,48 +1,12 @@
-<%- include header %>
-
-
-
-
-<style>
-
-      #map {
-        height: 500px;
-        width: 400px;
-        margin: 0;
-        padding: 0;
-      }
-
-      #results {
-        font-family: Arial, Helvetica, sans-serif;
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        margin-top: -195px;
-        height: 380px;
-        width: 200px;
-        padding: 5px;
-        z-index: 5;
-        border: 1px solid #999;
-        background: #fff;
-      }
-    </style>
-
-
-
-<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-<script  src="/javascripts/searchPage.js"></script>
-
-<p>Search Results</p>
-
-<div id="map"></div>
-
-
-<script>                          //place google map and markers
-    var posts = <%- posts %>;
+   
+alert(<%- posts %>);
+   /* var posts = <%- posts %>;
     var searchlatlng = <%- searchlatlng %>;
     var slatlng = searchlatlng.substring(1, searchlatlng.length-1);
     var searchArr = slatlng.split(", ");
-
+    
+    alert(slatlng);
+    
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
       //center: new google.maps.LatLng(43.6548988, -79.39661610000002),
@@ -73,18 +37,5 @@
             }
         })(marker, i));
     }
-</script>
-
-
-
-  
-
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-
-
-  
-
-
-
-<%- include paging %>
-<%- include footer %>
+   
+  */

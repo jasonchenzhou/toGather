@@ -1,4 +1,6 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 
 <!-- views/header.ejs -->
 
@@ -37,13 +39,18 @@
             <% } %>
       
     
-        <span>
-            <form action="/search" method="GET">
-                <input type="text" name="keyword" placeholder="SEARCH" class="search"/>
-                <input type="date" name="startDate" class="search"/>
-                <input type="date" name="endDate" class="search"/>
-            </form>
-        </span>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script  src="/javascripts/searchMap.js"></script>
+        
+    <form name="contactform" method='post'>
+        <input type="text" name="keyword" id="autoKeyword" placeholder="SEARCH" class="search"/>
+        <input type="date" name="startDate" class="search"/>
+        <input type="date" name="endDate" class="search"/>
+        <input type="text" name="searchlatlng" id="searchlatlng" placeholder="Latitude & Longtitude" />
+        <input type="submit" value="search"/>
+    </form>
+        
         
 
 </nav>
