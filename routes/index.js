@@ -534,34 +534,6 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 
 
-
-
-
-
-
-
-
-app.get('/jsonp',function(req,res,next){ // #返回jsonp  
-   res.jsonp({status:'jsonp'});  
-});  
-  
-app.get('/json',function(req,res,next){  // #返回json  
-    res.jsonp({status:'json'});  
-});  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
     function checkLogin(req, res, next){
         if(!req.session.user){
             req.flash('error', 'Not Login!');

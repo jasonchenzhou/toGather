@@ -6,7 +6,7 @@ function Post(name, title, loc, latlng, partyDate, pic, post){
 	this.title = title;
     this.loc = loc;      // add new location!
     this.latlng = latlng;
-    this.partyDate = partyDate;
+    this.partyDate = new Date(partyDate);
     this.pic = pic;
 	this.post = post; //lines of article
 }
@@ -147,10 +147,12 @@ Post.search = function(loc, page, startDate, endDate, callback){
             }
           //  console.log("into search post!!~~");
             var pattern = new RegExp(loc, "i");
+            var sDate = new Date(startDate);
+            var eDate = new Date(endDate);
             var query = {
-                "loc": pattern,
-                "partyDate": {$gte: startDate},
-                "partyDate": {$lte: endDate}
+             //   "loc": pattern,
+                "partyDate": {$gte: sDate},
+                "partyDate": {$lte: eDate}
             };
            
             //console.log(query);

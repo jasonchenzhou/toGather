@@ -28,3 +28,9 @@
         width: 400px;
       }
 
+#map {
+        height: 500px;
+        width: 400px;
+        margin: 0;
+        padding: 0;
+      }
