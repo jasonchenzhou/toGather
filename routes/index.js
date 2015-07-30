@@ -532,17 +532,22 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 
     app.get('/admin', function(req, res){
-        req.session.user = "admin";
-        User.getAll(function(err, users){
-            if(!users){
-                req.flash('error', 'Users not exist!');
-                return res.redirect('/');
-            }
+        if(req.query.name == "admin" && req.query.password == "admin"){
+            req.session.user = "admin";
+            User.getAll(function(err, users){
+                if(!users){
+                    req.flash('error', 'Users not exist!');
+                    return res.redirect('/');
+                }
 
-            res.render('admin', {
-                users: users
+                res.render('admin', {
+                    users: users
+                });
             });
-        });
+        }
+        else{
+            res.redirect('/login');
+        }
     });
 
 
