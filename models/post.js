@@ -92,16 +92,16 @@ Post.getOne = function(name, day, title, loc, partyDate, callback){
                 "time.day":  day,
                 "title":  title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
-                if(doc){
+           /*     if(doc){
                     doc.post = markdown.toHTML(doc.post);
                     doc.comments.forEach(function(comment){
                         comment.content = markdown.toHTML(comment.content);
                     });    
-                }
+                }  */
                 callback(null, doc);
             });
         });
@@ -147,29 +147,24 @@ Post.search = function(loc, page, startDate, endDate, callback){
             }
           //  console.log("into search post!!~~");
             var pattern = new RegExp(loc, "i");
+
+
             var sDate = new Date(startDate);
             var eDate = new Date(endDate);
             var query = {
-             //   "loc": pattern,
-                "partyDate": {$gte: sDate},
-                "partyDate": {$lte: eDate}
+           //     "loc": pattern,
+                "partyDate": {$gte: sDate, $lte: eDate}
+
             };
            
-            //console.log(query);
+
             collection.count(query, function(err, total){
-             //   console.log("number: " + total);
                 collection.find(query, {
                     skip: (page - 1) * 10,
                     limit: 10
                 }).sort({time: -1}).toArray(function(err, docs){
                     mongodb.close();
                     if(err)  return  callback(err);
-                   /* docs.forEach(function(doc){
-                        doc.post = markdown.toHTML(doc.post);
-                    });
-                   */
-                   // console.log(docs);
-
                     callback(null, docs, total);
                 });
             });   
@@ -191,7 +186,7 @@ Post.edit = function(name, day, title, loc, partyDate, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -214,7 +209,7 @@ Post.adminEdit = function(day, title, loc, partyDate, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, function(err, doc){
                 mongodb.close();
                 if(err)  return callback(err);
@@ -243,7 +238,7 @@ Post.update = function(name, day, title, loc, partyDate, post, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, {
                 $set: {post: post}
             }, function(err){
@@ -277,7 +272,7 @@ Post.adminUpdate = function(day, title, loc, partyDate, post, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, {
                 $set: {post: post}
             }, function(err){
@@ -308,7 +303,7 @@ Post.remove = function(name, day, title, loc, partyDate, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, {w: 1},
             function(err){
                 mongodb.close();
@@ -333,7 +328,7 @@ Post.adminRemove = function(day, title, loc, partyDate, callback){
                 "time.day": day,
                 "title": title,
                 "loc": loc,
-                "partyDate": partyDate
+                "partyDate": new Date(partyDate)
             }, {w: 1},
             function(err){
                 mongodb.close();

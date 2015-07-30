@@ -1,21 +1,15 @@
 <%- include header %>
 
 
-    <div class="col-sm-4" style="background-color:lavender;">
-	    <form method="post">
-            <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon1">Login</span>
-                <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1" name="name">
-            </div>
+<form method="post">
+    <p>Login</p>
+    <input type="text" placeholder="Username"name="name"><br/>
 
-            <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon1">Password</span>
-                <input type="text" class="form-control" placeholder="password" aria-describedby="sizing-addon1" name="password">
-  
-            </div>
-	    <button type="submit" value="Login" class="btn btn-default">Submit</button>
-        </form>
-    </div>
+    <p>Password</p>
+    <input type="text" placeholder="password" name="password"><br/>
+	<button type="submit" value="Login">Submit</button>
+</form>
+
 <a href = "<%= url%>">Get Permission</a>
 
 <a href = "/admin">admin login</a>

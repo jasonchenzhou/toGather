@@ -53,6 +53,7 @@ module.exports = function(app){
                 isFirstPage: (page - 1) == 0,
                 isLastPage: ((page-1)*10 + posts.length) == total,
                 posts: JSON.stringify(posts),
+                lists: posts,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -279,6 +280,14 @@ console.log("log in now!!");
         res.redirect('/');
 	});
 
+
+
+    app.get('/about', function(req, res){
+        res.render('about');
+    })
+
+
+
 /*
     app.get('/upload', checkLogin);
     app.get('/upload', function(req, res){
@@ -336,15 +345,16 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
         Post.getOne(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
-                return  res.redirect('back');
+                return  res.redirect('/');
             }
-            console.log(post.name);
-           // console.log('!!!!!!!!!');
+            console.log(req.session.user.name);
+            console.log(req.params.name);
             res.render('article', {
                 //title: 'Edit',
                 title: req.params.title,
                 post: post,
                 user: req.session.user,
+                articleowner: req.params.name,
                 loc: req.params.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
@@ -355,11 +365,11 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 //post comment info
     app.post('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
-        var date = new Date(),
-            time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
+            var date = new Date();
+            var time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
             var comment = {
-                name: req.body.name,
-                email: req.body.email,
+                name: req.session.user.name,
+              //  email: req.body.email,
                 website: req.body.website,
                 time: time,
                 content: req.body.content
@@ -482,7 +492,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 return res.redirect('back');
             }
             req.flash('success', 'delete success!');
-            res.direct('/admin');
+            res.direct('back');
         })
     })
 
