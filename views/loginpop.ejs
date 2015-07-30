@@ -1,0 +1,49 @@
+<!-- revised by lingying -->
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+  
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Log in</h4>
+      </div>
+      <div class="modal-body form">
+    
+        
+              <form method="post">
+                  <div>
+                      <span class="formtitle">Login</span>
+                      <input type="text" placeholder="Username" name="name">
+                  </div>
+                   <br>
+                   <div>
+                      <span class="formtitle">Password</span>
+                      <input type="password" placeholder="password" name="password">
+                  </div>
+                  <a href = "<%= url%>">
+                      <img src="/images/google.png" class="auth" alt="google auth">
+                  </a>
+                   <a href = "<%= url%>">
+                      <img src="/images/facebook.png" class="auth" alt="facebook auth">
+                  </a>
+                   <a href = "<%= url%>">
+                      <img src="/images/github.png" class="auth" alt="github auth">
+                  </a>
+                   <a href = "<%= url%>">
+                      <img src="/images/linkedin.png" class="auth" alt="linkedin auth">
+                  </a>
+                  <button type="submit" value="Login" class="submit">Submit</button>
+                  <button type="submit" value="Login" class="submit" data-dismiss="modal">Cancel</button>
+
+              </form>  
+
+          
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    
+  </div>
+</div>

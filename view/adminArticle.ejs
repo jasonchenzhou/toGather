@@ -1,0 +1,9 @@
+
+<h1>admin Article</h1>
+
+<% posts.forEach(function(post){ %>
+    <p> <%= post.title %> </p>
+    <a href="/adminEditArticle/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Edit</a></span>
+    <a href="/adminRemoveArticle/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a>
+<% }) %>
+

@@ -1,0 +1,13 @@
+<br/>
+<% post.comments.forEach(function(comment, index){ %>
+    <p><a href="<%= comment.website %>"><%= comment.name %></a>
+    <span class="info">Reply in <%= comment.time %></span></p>
+    <p><%- comment.content %></p>
+<% }) %>
+
+<form method="post">
+    Name: <input type="text" name="name" value="<%= user.name %>" disabled="disabled"/><br/>
+    Website: <input type="text" name="website" value="/u/<%= user.name %>" /><br/> 
+    <textarea name="content" rows="5" cols="80"></textarea><br/>
+    <input type="submit" value="Comment" />
+</form>

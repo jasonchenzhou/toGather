@@ -19,6 +19,7 @@ module.exports = function(app){
             if(err)  posts = [];
             res.render('index', {
                 title: 'home page',
+                 url: gapi.url,
                 user:  req.session.user,
                 page: page,
                 isFirstPage: (page - 1) == 0,
@@ -43,8 +44,8 @@ module.exports = function(app){
                 req.flash('error', err);
                 return  res.redirect('/');
             }
-         //   console.log(posts);
-         //   console.log("~~~~~~~~~~~~~");
+            console.log(posts);
+            console.log("~~~~~~~~~~~~~");
             res.render('search', {
                 title: JSON.stringify("SEARCH: " + req.query.keyword),
                 user: req.session.user,

@@ -1,8 +1,40 @@
-<%- include header %>
+<body>
+    <div id="wrap" style="width:1280px; height:640px">
+        <video autoplay muted loop id="vedio">
+            <source src="/images/test.mp4">
+        </video>    
+        <div>
+        <%- include header %>
+                
+        <img class="wrap" src="/images/wrap.png">
+        </div>
+        <div id="intro">
+            <h1 style="color: #fffefe;font-size: 64px;line-height: 64px;font-weight: 700;text-shadow: none;letter-spacing: 2px;">toGather
+            </h1>
+            <p>
+                <span>toGather helps you find amazing parties around
+                </span>
+            </p>
+            <br>
+            <br>
+            <span>
+                <%- include searchBar %>
+            </span>
+            <br>
+            <br>
+            
+        </div>
+    </div>
+    <div>
+        <%- include loginpop %>
 
- 
+        <%- include paging %>
 
-<%- include searchBar %>
+    </div>
+</body>
+
+
+
 
 
 <% include footer %>
