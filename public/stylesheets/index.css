@@ -11,6 +11,8 @@ body{
     overflow: hidden;
     top: 0;
     z-index: 10;
+    width:1280px;
+    height:640px;
 }
 #mobile{
 	display:none;
@@ -201,7 +203,7 @@ p{
 }
 
 
-#autoLoc {
+#loc {
         background-color: #fff;
         font-family: Roboto;
         font-size: 15px;
@@ -210,9 +212,9 @@ p{
         text-overflow: ellipsis;
         width: 400px;
       }
-#map-canvas {
+#map {
 		display: block;
-        height: 50%;
+        height: 500px;
         width: 50%;
         top:-23%;
 		left:19%;

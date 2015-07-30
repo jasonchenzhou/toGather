@@ -1,16 +1,95 @@
 <%- include header %>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
 <script  src="/javascripts/postPage.js"></script>
 <link rel="stylesheet" href="/stylesheets/postPage.css">
 
+
+
+
+<body>
+    <div id="wrap">
+        <img class="wrap" src="/images/party.jpg">
+        </img>    
+        <div>
+            <%- include header %>
+                
+        <img class="wrap" src="/images/wrap.png">
+        </div>
+        <div id="intro">
+            <h1 style="color: white;font-size: 64px;line-height: 64px;font-weight: 700;text-shadow: none;letter-spacing: 2px;">toGather
+            </h1>
+            <p>
+                <span>toGather helps you find amazing parties around
+                </span>
+            </p>
+            <br>
+            <br>
+            
+            <div class="form" id="post">
+                <form name="contactform" method='post' enctype='multipart/form-data'>
+                    <span class="formtitle"> Title</span>
+                    <input type="text" name="title"/><br/>
+                    <br>
+                    <span class="formtitle">Location</span>
+                    <input input type="text" name="loc" id="loc"  placeholder="Enter a location"/>
+                    <input type="text" name="latlng" id="latlng" placeholder="Latitude & Longtitude" /><br/>
+    Party Date: <input type="date" name="partyDate"><br/>
+                    <br>
+                    <br>
+                    
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <span class="formtitle">Party Date</span>
+                    <input type="date" name="partyDate">
+                    <br>
+                    <br>
+                    <span class="formtitle">Paragraph</span>
+                    <br/>
+                    <textarea name="post" rows="20" cols="100"></textarea>
+                    <br/>
+                    <input type="submit" class="submit" value="post"/>
+                </form>
+            </div>
+
+            <%- include footer %>    
+        </div>
+    </div>
+     <div id="map"></div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 
 
 <form name="contactform" method='post' enctype='multipart/form-data'>
@@ -19,7 +98,7 @@
     Party Date: <input type="date" name="partyDate"><br/>
 
     
-    <div ng-app="imageuploadDemo" ng-controller="DemoCtrl">        <!-- This is Angular JS part! -->
+    <div ng-app="imageuploadDemo" ng-controller="DemoCtrl">      
         <input id="pic" name = "pic" type="file" accept="image/*" image="image" resize-max-height="300" resize-max-width="250" resize-quality="0.7" />
         <img ng-show="image" ng-src="{{image.resized.dataURL}}"/>
     </div>
@@ -39,6 +118,6 @@
 
 
 
+-->
 
-<div id="map"></div>
 <%- include footer %>
