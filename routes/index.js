@@ -53,6 +53,7 @@ module.exports = function(app){
                 isFirstPage: (page - 1) == 0,
                 isLastPage: ((page-1)*10 + posts.length) == total,
                 posts: JSON.stringify(posts),
+                lists: posts,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
             });
@@ -279,6 +280,14 @@ console.log("log in now!!");
         res.redirect('/');
 	});
 
+
+
+    app.get('/about', function(req, res){
+        res.render('about');
+    })
+
+
+
 /*
     app.get('/upload', checkLogin);
     app.get('/upload', function(req, res){
@@ -338,13 +347,14 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 req.flash('error', err);
                 return  res.redirect('/');
             }
-            //console.log(post.title);
-           // console.log('!!!!!!!!!');
+            console.log(req.session.user.name);
+            console.log(req.params.name);
             res.render('article', {
                 //title: 'Edit',
                 title: req.params.title,
                 post: post,
                 user: req.session.user,
+                articleowner: req.params.name,
                 loc: req.params.loc,
                 success: req.flash('success').toString(),
                 error: req.flash('error').toString()
@@ -482,7 +492,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 return res.redirect('back');
             }
             req.flash('success', 'delete success!');
-            res.direct('/admin');
+            res.direct('back');
         })
     })
 

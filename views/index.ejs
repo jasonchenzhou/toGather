@@ -1,50 +1,10 @@
-<!-- views/index.ejs -->
-
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-
-</head>
-
 <%- include header %>
-<!--
-<main>
-<% posts.forEach(function(post, index){ %>
-    <p><h2><a href="/u/<%= post.name %>/<%= post.time.day %>/<%= post.title %> "><%= post.title %></a></h2></p>
-    <p class="info">
-        Author: <a href="/u/<%= post.name %>"><%= post.name %></a>
-        Date: <%= post.time.minute %>
-    </p>
-    <p><%- post.post %></p>
-<% }) %>
 
-</main>
--->
-    </div>
-    <div class="col-sm-4">
  
 
- <!--
-<div class="panel panel-primary">Promoted Party!</div>
-<iframe width="500" height="400" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=Toronto,+ON,+Canada&key=
-AIzaSyBRByzlgnKYE_2JERgRv2MtNxP_Fu6CEZU" allowfullscreen></iframe>
-<div class="panel panel-success">Crazy Party!</div>
-<iframe width="500" height="400" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=Beijing,+China&key=AIzaSyBRByzlgnKYE_2JERgRv2MtNxP_Fu6CEZU" allowfullscreen></iframe>
-<div class="panel panel-info">Boring Party!</div>
-<iframe width="500" height="400" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=Paris,+France&key=AIzaSyBRByzlgnKYE_2JERgRv2MtNxP_Fu6CEZU" allowfullscreen></iframe> 
-<div class="panel panel-danger">DO NOT PARTY HERE!</div>
-<iframe width="500" height="400" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?q=Iraqi+Kurdistan,+Erbil,+Iraq&key=AIzaSyBRByzlgnKYE_2JERgRv2MtNxP_Fu6CEZU" allowfullscreen></iframe> 
-</div>
--->
+<%- include searchBar %>
 
-<%- include paging %>
 
-<footer>
-        <% include footer %>
-</footer>
+<% include footer %>
+
 
