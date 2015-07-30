@@ -356,6 +356,10 @@ console.log("log in now!!");
                 return  res.redirect('/');
             }
 
+console.log(req.query.keyword);
+console.log(req.query.searchlatlng);
+console.log("~~~~~~~~~~~~~~~~~~~~~");
+
             res.render('search', {
                 title: JSON.stringify("SEARCH: " + req.query.keyword),
                 user: req.session.user,

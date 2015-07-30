@@ -2,7 +2,12 @@
 
 <script  src="/javascripts/postPage.js"></script>
 <link rel="stylesheet" href="/stylesheets/postPage.css">
-
+<script src="javascripts/imageupload.js" type="text/javascript"></script>
+<script type="text/javascript">
+          angular.module('imageuploadDemo', ['imageupload'])
+            .controller('DemoCtrl', function($scope, $http) {
+            });
+</script>
 
 
 
@@ -41,6 +46,10 @@
                     <input type="date" name="partyDate">
                     <br>
                     <br>
+                    <div ng-app="imageuploadDemo" ng-controller="DemoCtrl">        <!-- This is Angular JS part! -->
+                        <input id="pic" name = "pic" type="file" accept="image/*" image="image" resize-max-height="300" resize-max-width="250" resize-quality="0.7" />
+                        <img ng-show="image" ng-src="{{image.resized.dataURL}}"/>
+                    </div>
                     <span class="formtitle">Paragraph</span>
                     <br/>
                     <br>
