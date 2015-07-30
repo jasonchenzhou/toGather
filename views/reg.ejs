@@ -1,31 +1,56 @@
-<%- include header %>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<!-- revised by Lingying -->
+<body>
+    <div id="wrap" style="width:1280px; height:640px">
+        <img class="wrap" src="/images/party.jpg">
+        </img>    
+        <div>
+            <%- include header %>
+                
+        <img class="wrap" src="/images/wrap.png">
+        </div>
+        <div id="intro">
+            <h1 style="color: white;font-size: 64px;line-height: 64px;font-weight: 700;text-shadow: none;letter-spacing: 2px;">toGather
+            </h1>
+            <p>
+                <span>Take few seconds and join us!
+                </span>
+            </p>
+            <br>
+            <div class="form">
+                <form method="post">
+                    <div>
+                        <span class="formtitle">Username</span>
+                        <input type="text" placeholder="Username" name="name">
+                    </div>
+                    <br>
 
+                    <div>
+                        <span class="formtitle">Password</span>
+                        <input type="password" placeholder="password" name="password">
+                    </div>
+                    <br>
+                    <div>
+                        <span class="formtitle">Confirm Password</span>
+                        <input type="password" placeholder="password" name="password-repeat">
+                    </div>
 
-<h1>Reg page</h1>
+                     <br>
+                     <div>
+                        <span class="formtitle">Mailbox</span>
+                        <input type="email" name="email" placeholder="email@domain.com">
+                    </div>
+                <button type="submit" value="register" class="submit">Submit</button>
+                </form>  
+            </div>
+<br>
+<br>
+<%- include footer %> 
+       
+        </div>
+    </div>
+    <div>
 
-<form method="post">
-  username: <input type="text" name="name"/><br />
-  password: <input type="password" name="password"/><br />
-  retype password <input type="password" name="password-repeat"/><br />
-  mailbox: <input type="email" name="email"/><br />
-           <input type="submit" value="register"/>
-</form>
+ <!-- items added here are in the same layer as background  -->       
 
-
-<%- include footer %>
+    </div>
+</body>

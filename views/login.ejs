@@ -1,25 +1,65 @@
-<%- include header %>
+<body>
+    <div id="wrap" style="width:1280px; height:640px">
+        <img class="wrap" src="/images/party.jpg">
+        </img>    
+        <div>
+            <%- include header %>
+                
+        <img class="wrap" src="/images/wrap.png">
+        </div>
+        <div id="intro">
+            <h1 style="color: white;font-size: 64px;line-height: 64px;font-weight: 700;text-shadow: none;letter-spacing: 2px;">toGather
+            </h1>
+            <p>
+                <span>toGather helps you find amazing parties around
+                </span>
+            </p>
+            <br>
+            <br>
+            
+            <div class="form">
+                <form method="post">
+                    <div>
+                        <span class="formtitle">Login</span>
+                        <input type="text" placeholder="Username" name="name">
+                    </div>
+                     <br>
+                     <div>
+                        <span class="formtitle">Password</span>
+                        <input type="password" placeholder="password" name="password">
+                    </div>
+                    <a href = "<%= url%>">
+                        <img src="/images/google.png" class="auth" alt="google auth">
+                    </a>
+                    <a href = "/admin">admin login</a>
+                    <button type="submit" value="Login" class="submit">Submit</button>
+      
+                </form>
+                
+            </div>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+            <br>
+            <br>
+            <%- include footer %> 
+       
+        </div>
+    </div>
+    <div>
 
-<form method="post">
+ <!-- items added here are in the same layer as background  -->       
+
+    </div>
+</body>
+
+
+   
+
+
+
+
+
+
+<!-- <form method="post">
     <p>Login</p>
     <input type="text" placeholder="Username"name="name"><br/>
 
@@ -30,6 +70,5 @@
 
 <a href = "<%= url%>">Get Permission</a>
 
-<a href = "/admin">admin login</a>
+<a href = "/admin">admin login</a> -->
 
-<%- include footer %>
