@@ -212,11 +212,5 @@ p{
         text-overflow: ellipsis;
         width: 400px;
       }
-#map {
-		display: block;
-        height: 500px;
-        width: 50%;
-        top:-23%;
-		left:19%;
-      }
+
 }
