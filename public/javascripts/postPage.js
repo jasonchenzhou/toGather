@@ -4,6 +4,9 @@ function initialize() {
     center: new google.maps.LatLng(-33.8688, 151.2195),
     zoom: 13
   };
+
+alert("!!!");
+
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 
