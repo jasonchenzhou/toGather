@@ -2,12 +2,12 @@
 <script  src="/javascripts/searchBar.js"></script>
 <!-- <link rel="stylesheet" href="/stylesheets/searchBar.css">
  -->
-<form method='post' >
+<form action="/search" method='get' >
     <input type="date" name="startDate" class="signbtn"/>
     <input type="date" name="endDate" class="signbtn"/>
     <br>
     <input type="text" name="keyword" id="autoKeyword" placeholder="KEY WORD" class="signbtn"/>
-    <input style="display: none" type="text" name="searchlatlng" id="searchlatlng" placeholder="Latitude & Longtitude" />
+    <input  type="text" name="searchlatlng" id="searchlatlng" placeholder="Latitude & Longtitude" />
     <button type="submit" value="search" class="submit">Submit</button>
 </form>
 

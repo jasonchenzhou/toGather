@@ -11,6 +11,9 @@
 
 <script>                          //place google map and markers
     var posts = <%- posts %>;
+
+
+
     var searchlatlng = <%- searchlatlng %>;
     var slatlng = searchlatlng.substring(1, searchlatlng.length-1);
     var searchArr = slatlng.split(", ");
@@ -43,7 +46,7 @@
             infowindow.open(map, marker);
             }
         })(marker, i));
-    }
+    }  
 </script>
 
 

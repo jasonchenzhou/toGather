@@ -33,7 +33,7 @@ module.exports = function(app){
 
 
 
-
+/*   ---------- search from here  -------------
     app.post('/', function(req, res){
  
        // console.log(req.body.keyword);
@@ -62,7 +62,34 @@ module.exports = function(app){
 
     });
 
+*/
 
+
+
+
+
+    app.post('/', checkNotLogin);
+    app.post('/', function(req, res){
+        var md5 = crypto.createHash('md5'),
+            password = md5.update(req.body.password).digest('hex');
+        //check whether username existed
+        User.get(req.body.name, function(err,user){
+            if(!user){
+                req.flash('error', 'user not exist!');
+                return res.redirect('/login');
+            }
+            //check password
+            if(user.password != password){
+                req.flash('error', 'password error!');
+              //  return res.redirect('/login');
+                return res.redirect('back');
+            }
+            //check ok, store in session
+            req.session.user = user;
+            req.flash('success', 'Login successfully!');
+            res.redirect('/');
+        });
+    });
 
 
 
@@ -284,8 +311,67 @@ console.log("log in now!!");
 
 
     app.get('/about', function(req, res){
-        res.render('about');
+        res.render('about', {
+            title: 'About',
+            user:  req.session.user,
+            url: gapi.url,
+            success:  req.flash('success').toString(),
+            error:  req.flash('error').toString()
+        });
+    });
+
+
+    app.post('/about', function(req, res){           //login from about
+        var md5 = crypto.createHash('md5'),
+            password = md5.update(req.body.password).digest('hex');
+        //check whether username existed
+        User.get(req.body.name, function(err,user){
+            if(!user){
+                req.flash('error', 'user not exist!');
+                return res.redirect('/login');
+            }
+            //check password
+            if(user.password != password){
+                req.flash('error', 'password error!');
+                return res.redirect('/login');
+            }
+            //check ok, store in session
+            req.session.user = user;
+            req.flash('success', 'Login successfully!');
+            res.redirect('/');
+        });
     })
+
+
+
+
+    app.get('/search', function(req, res){
+ 
+       // console.log(req.body.keyword);
+       // console.log(req.body.searchlatlng);
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        Post.search(req.query.keyword, page, req.query.startDate, req.query.endDate, function(err, posts, total){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('/');
+            }
+
+            res.render('search', {
+                title: JSON.stringify("SEARCH: " + req.query.keyword),
+                user: req.session.user,
+                searchlatlng: JSON.stringify(req.query.searchlatlng),
+                page: page,
+                isFirstPage: (page - 1) == 0,
+                isLastPage: ((page-1)*10 + posts.length) == total,
+                posts: JSON.stringify(posts),
+                lists: posts,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+
+    });
+
 
 
 
