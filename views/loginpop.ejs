@@ -6,12 +6,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Log in</h4>
       </div>
-      <div class="modal-body form">
+      <div class="modal-body">
     
-        
-              <form method="post">
+              <form method="post" id="left">
+                  <p>User Login</p>
                   <div>
                       <span class="formtitle">Login</span>
                       <input type="text" placeholder="Username" name="name">
@@ -28,7 +27,7 @@
 
               </form>  
 
-              <form action="/admin" method="get">
+              <form action="/admin" method="get" id="right">
                   <p>Admin Login</p>
                   <div>
                       <span class="formtitle">Login</span>
@@ -40,9 +39,9 @@
                       <input type="password" placeholder="password" name="password">
                   </div>
                   <button type="submit" value="Login" class="submit">Submit</button>
-              </form>
-
-          
+              </form>     
+      </div>
+      <div class="modal-footer">
       </div>
 
     </div>
