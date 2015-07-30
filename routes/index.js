@@ -336,9 +336,9 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
         Post.getOne(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
             if(err){
                 req.flash('error', err);
-                return  res.redirect('back');
+                return  res.redirect('/');
             }
-            console.log(post.name);
+            //console.log(post.title);
            // console.log('!!!!!!!!!');
             res.render('article', {
                 //title: 'Edit',
@@ -355,11 +355,11 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 //post comment info
     app.post('/u/:name/:day/:title/:loc/:partyDate', function(req, res){
-        var date = new Date(),
-            time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
+            var date = new Date();
+            var time = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes()<10 ? '0'+date.getMinutes : date.getMinutes());
             var comment = {
-                name: req.body.name,
-                email: req.body.email,
+                name: req.session.user.name,
+              //  email: req.body.email,
                 website: req.body.website,
                 time: time,
                 content: req.body.content
@@ -531,34 +531,6 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
             res.redirect('/admin');
         });
     });
-
-
-
-
-
-
-
-
-
-
-app.get('/jsonp',function(req,res,next){ // #返回jsonp  
-   res.jsonp({status:'jsonp'});  
-});  
-  
-app.get('/json',function(req,res,next){  // #返回json  
-    res.jsonp({status:'json'});  
-});  
-  
-
-
-
-
-
-
-
-
-
-
 
 
 

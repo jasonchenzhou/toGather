@@ -33,7 +33,7 @@ Comment.prototype.save = function(callback){
 				"time.day": day,
 				"title": title,
 				"loc": loc,
-				"partyDate": partyDate
+				"partyDate": new Date(partyDate)
 			}, {$push: {"comments": comment}},
 			function(err){
 				mongodb.close();
