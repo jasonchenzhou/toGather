@@ -1,11 +1,23 @@
 <%- include header %>
 
 <link rel="stylesheet" href="/stylesheets/searchPage.css">
+<script  src="/javascripts/searchBar.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/javascripts/index.js"></script>
 <div>
 	<div class="icon-menu">
 		Menu
 	</div>
-	
+	<div id="searchbar">
+        <form action="/search" method='get' >
+            <input type="date" name="startDate" class="signbtn"/>
+            <input type="date" name="endDate" class="signbtn"/>
+            <input type="text" name="keyword" id="autoKeyword" placeholder="KEY WORD" class="signbtn"/>
+           <!--  <input  type="text" name="searchlatlng" id="searchlatlng" placeholder="Latitude & Longtitude" /> -->
+            <button type="submit" value="search" class="submit">Submit</button>
+        </form>
+    </div>
+
     <div id="map"></div>
 
 			
@@ -71,8 +83,7 @@
     <%- include paging %>
     
 </div>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="/javascripts/index.js"></script>
+	
 
 </div>
 

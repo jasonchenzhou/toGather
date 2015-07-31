@@ -1,63 +1,96 @@
 @media only screen and (min-width: 960px){
-#map {
-		display: block;
+	/*do not modify this part*/
+	#searchbar {
+			display: block;
+			position: fixed;
+	        height: 40px;
+	        width: 600px;
+	        right:0;
+	        top:55px;
+		    z-index:-9999;
+		    overflow: hidden;
+
+	}
+	.signbtn{
+		text-align: center;
+		border: 1px solid #0079c2;
+		color: #0079c2;
+		margin-top: 0px;
+		margin-bottom: 0;
+		padding-right: 5px;
+
+	}
+	.signbtn:hover{
+		opacity: 0.8;
+		color: white;
+		margin-top: 0px;
+		margin-bottom: 0;
+	}
+	.submit{
+		margin-left:2px;
+		opacity: 0.8;
+		margin-top: 0px;
+		margin-bottom: 0;
+
+	}
+	#map {
+			display: block;
+			position: fixed;
+	        height: 580px;
+	        width: 600px;
+	        top:50px;
+	        margin-top: 30px;
+		    z-index:-9999;
+		    float:right;
+		    overflow: hidden;
+	}
+	#nav{
+
 		position: fixed;
-        height: 630px;
-        width: 600px;
-        top:50px;
-        bottom:0px;
-        margin-top: 5px;
-	    z-index:-9999;
-	    float:right;
-	    overflow: hidden;
-      }
-#nav{
-
-	position: fixed;
-	z-index: -9999;
-}
-.article{
-	display: block;
-	right: 600px;
-	top: 50px;
-	bottom: 0;
-	z-index:0;
-	position:absolute;
-	overflow: scroll;
-	padding:0;
-}
-#articleItem{
-	display: inline-block;
-	width:50%;
-	height: 300px;
-	float: left;
-	padding:5px;
-/*	border:2px solid black;
-*/}
-#articleTitle{
-	height:20%;
-	text-align: left;
-	font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
-	padding-top: 5%;
-	padding-left: 3%;
+		z-index: -9999;
+	}
+	.article{
+		display: block;
+		right: 600px;
+		top: 50px;
+		bottom: 0;
+		z-index:0;
+		position:absolute;
+		overflow: scroll;
+		padding:0;
+	}
+	#articleItem{
+		display: inline-block;
+		width:50%;
+		height: 300px;
+		float: left;
+		padding:5px;
+	/*	border:2px solid black;
+	*/}
+	#articleTitle{
+		height:20%;
+		text-align: left;
+		font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+		padding-top: 5%;
+		padding-left: 3%;
 
 
-}
-#nameinfo{
-	font-size: 16px;
-}
-#timeinfo{
-	color: #82888a;
-	font-size: 14px;
-}
-#articleimg{
-	display: block;
-	margin-top:20%;
-	width:100%;
-	height:75%;
-	bottom:0;
-	margin:0;
-}
+	}
+	#nameinfo{
+		font-size: 16px;
+	}
+	#timeinfo{
+		color: #82888a;
+		font-size: 14px;
+	}
+	#articleimg{
+		display: block;
+		margin-top:20%;
+		width:100%;
+		height:75%;
+		bottom:0;
+		margin:0;
+	}
 
 
 }
