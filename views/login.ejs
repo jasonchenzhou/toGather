@@ -21,7 +21,7 @@
             <div class="form">
                 <form method="post">
                     <div>
-                        <span class="formtitle">Login</span>
+                        <span class="formtitle">User login</span>
                         <input type="text" placeholder="Username" name="name">
                     </div>
                      <br>
@@ -32,27 +32,28 @@
                     <a href = "<%= url%>">
                         <img src="/images/google.png" class="auth" alt="google auth">
                     </a>
-                    <a href = "/admin">admin login</a>
                     <button type="submit" value="Login" class="submit">Submit</button>
       
                 </form>
+                <hr>
+                <form action="/admin" method="get">
+                    <div>
+                        <span class="formtitle">Admin log</span>
+                        <input type="text" placeholder="Username" name="name">
+                    </div>
+                        <br>
+                    <div>
+                        <span class="formtitle">Password</span>
+                        <input type="password" placeholder="password" name="password">
+                    </div>
+                    <button type="submit" value="Login" class="submit">Submit</button>
+                </form>
+
                 
             </div>
 
 
-            <form action="/admin" method="get">
-                  <p>Admin Login</p>
-                  <div>
-                      <span class="formtitle">Login</span>
-                      <input type="text" placeholder="Username" name="name">
-                  </div>
-                      <br>
-                  <div>
-                      <span class="formtitle">Password</span>
-                      <input type="password" placeholder="password" name="password">
-                  </div>
-                  <button type="submit" value="Login" class="submit">Submit</button>
-              </form>
+            
 
             <br>
             <br>
