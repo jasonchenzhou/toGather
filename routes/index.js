@@ -471,8 +471,8 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
             for(i in friends){                    //if existed, go
                 if(friends[i] === pageUser){
                     res.redirect('/u/'+pageUser);
-                    existed = true;
-                    break;
+                  //  existed = true;
+                  //  break;
                 }
             }
             if(existed == false){
@@ -483,6 +483,33 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                     }
                     res.redirect('/u/'+pageUser);
                 });      
+            }
+        });
+    });
+
+
+
+    app.get('/attend/:name/:day/:title/:loc/:partyDate/:attender', function(req, res){
+        var attender = req.params.attender;
+        var existed = false;
+        Post.getAttender(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, attenders){
+            for(i in attenders){
+                if(attender === attenders[i]){
+                   // res.write("haha~~~~~~~~~");
+                    existed = true;
+                }
+            }
+            if(existed == false){
+                Post.addAttender(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, req.params.attender, function(err){
+                    if(err){
+                        req.flash('error', err);
+                        return  res.redirect('/');
+                    }
+                  //  res.send(attender);
+                
+                   
+                  // res.send({data: "  var data='name':'yuqj'  "});
+                });
             }
         });
     });
@@ -505,6 +532,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 //title: 'Edit',
                 title: req.params.title,
                 post: post,
+                attenders: post.attenders,
                 user: req.session.user,
                 articleowner: req.params.name,
                 loc: req.params.loc,

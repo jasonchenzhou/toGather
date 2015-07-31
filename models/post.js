@@ -32,7 +32,8 @@ Post.prototype.save = function(callback){
         partyDate: this.partyDate,
         pic: this.pic,
     	post: this.post,
-        comments: []
+        comments: [],
+        attenders: []
     };
 
     mongodb.open(function(err, db){
@@ -250,6 +251,78 @@ Post.update = function(name, day, title, loc, partyDate, post, callback){
         });
     });
 };
+
+
+
+
+
+
+Post.getAttender = function(name, day, title, loc, partyDate, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            console.log('failed open db!');
+            return  callback(err);    
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            collection.update({
+                "name": name,
+                "time.day": day,
+                "title": title,
+                "loc": loc,
+                "partyDate": new Date(partyDate)
+            }, function(err, post){
+                mongodb.close();
+                if(err){
+                    console.log('find error!!');
+                    return callback(err);
+                }
+                callback(null, post.attenders);
+            });
+        });
+    });
+}
+
+
+
+
+
+
+
+Post.addAttender = function(name, day, title, loc, partyDate, attender, callback){
+    mongodb.open(function(err, db){
+        if(err){
+            console.log('failed open db!');
+            return  callback(err);    
+        }
+        db.collection('posts', function(err, collection){
+            if(err){
+                mongodb.close();
+                return  callback(err);
+            }
+            collection.update({
+                "name": name,
+                "time.day": day,
+                "title": title,
+                "loc": loc,
+                "partyDate": new Date(partyDate)
+            }, {
+                $push: {attenders: attender}
+            }, function(err){
+                mongodb.close();
+                if(err){
+                    console.log('add failed!!!!!!');
+                    return callback(err);
+                }
+                callback(null);
+            });
+        });
+    });
+}
+
 
 
 

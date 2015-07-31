@@ -13,6 +13,40 @@
     Date: <%= post.time.minute %>
     Location: <%= post.loc %>
     Picture:  <img src="<%= post.pic.path.substring(6)%>" />
+
+
+
+<script type="text/javascript">
+    $(function(){
+    	$('#attend').click(function(e){
+    		e.preventDefault();
+    		console.log("touch attend!!");
+
+    		$.ajax({
+    			type: 'POST',
+    			contentType: 'application/json',
+    			url: "/attend/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>/<%= user.name %>",
+    			success: function(data){
+    				console.log('ajax success');
+    				//console.log(JSON.stringify(data));
+    				alert(data);
+    			}
+    		});
+    	});
+    });
+</script>
+
+
+
+<div id="attend"><p>Attend</p></div>
+
+<ul>
+    <% attenders.forEach(function(attender){ %>
+        <a href='/u/<%= attender %>'><%= attender %></a>
+    <% }) %>
+<ul>
+
+    <a href="/attend/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>/<%= user.name %>">Attend</a>
 </p>
 <p><%- post.post%></p>
 <%- include comment %>
