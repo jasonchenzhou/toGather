@@ -1,4 +1,4 @@
-
+@media only screen and (min-width: 960px){
 #map {
 		display: block;
 		position: fixed;
@@ -19,7 +19,7 @@
 .article{
 	display: block;
 	right: 600px;
-	top: 50px;
+	top: 100px;
 	bottom: 0;
 	z-index:0;
 	position:absolute;
@@ -28,10 +28,11 @@
 }
 #articleItem{
 	display: inline-block;
-	width:50%;
-	height: 300px;
+	width:60%;
+	/*height: 300px;*/
+margin-left:20%;
 	float: left;
-	padding:5px;
+	padding:10px;
 /*	border:2px solid black;
 */}
 #articleTitle{
@@ -58,4 +59,120 @@
 	bottom:0;
 	margin:0;
 }
+.article{
+	background-color:Beige;
+}
+
+}
+
+
+
+
+
+@media only screen and (max-width: 960px){
+	#map {
+			display: none;
+	      }
+		  
+		  
+	  	#nav{
+	  		background-color:black;
+	  	     height: 650px;
+	  	     width: 30%;
+			 position: fixed;
+			 left:0%;
+	  /*		 float:left;*/
+	  	}
+	  	
+	  	.wrap{
+	  		display:none;
+	  	}
+	
+	
+	  	#nav ul{
+	  	    border-top: 1px solid #636366;
+	  	     list-style: none;
+	  	     margin: 0;
+	  	     padding: 0;
+	  		/*height:50px;*/
+	  		/*position:fixed;
+	  		padding:0;*/
+	  	}
+	  	#nav li{
+	  		font-family: "proxima-nova",sans-serif;
+	  		line-height: 45px;
+	  		padding-bottom: 3px;
+	  		  padding-left: 20px;
+	  		  padding-top: 3px;
+	  		  z-index:2;
+	  	}
+	  	#nav a{
+	  	    color: #fff;
+	  	     font-size: 15px;
+	  	     text-decoration: none;
+	  	     text-transform: uppercase;
+	  		 z-index:2;
+	  	}
+		  
+		.icon-menu {
+		  color: #000;
+		  cursor: pointer;
+		  font-family: 'Open Sans', sans-serif;
+		  font-size: 16px;
+		  padding-bottom: 25px;
+		  padding-left: 25px;
+		  padding-top: 25px;
+		  text-decoration: none;
+		  text-transform: uppercase;
+		}  
+		.article{
+			display: block;
+			top: 50px;
+			bottom: 0;
+			z-index:0;
+			position:absolute;
+			overflow: scroll;
+			padding:0;
+		}
+		#articleItem{
+			display: inline-block;
+			width:60%;
+			/*height: 300px;*/
+			margin-left:20%;
+			float: left;
+			padding:5px;
+		/*	border:2px solid black;
+		*/}
+		#articleTitle{
+			height:20%;
+			text-align: left;
+			font-family: Circular,"Helvetica Neue",Helvetica,Arial,sans-serif;
+			padding-top: 5%;
+			padding-left: 3%;
+
+
+		}
+		#nameinfo{
+			font-size: 16px;
+		}
+		#timeinfo{
+			color: #82888a;
+			font-size: 14px;
+		}
+		#articleimg{
+			display: block;
+			margin-top:20%;
+			width:100%;
+			/*height:75%;*/
+			bottom:0;
+			margin:0;
+		}
+		.article{
+			background-color:Beige;
+			z-index:-99;
+		}
+		  
+	}
+
+
 

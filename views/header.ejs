@@ -18,6 +18,11 @@
 	
 <div id="nav">
     <ul>
+			<li>
+			<div class="icon-close">
+			        <img src="http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/uber/close.png">
+			 </div>
+		</li>
         <li><a class="navbtn" href="/about/">about</a></li>
         <% if(user){ %>
             <li><a class="navbtn" href="/logout/">logout</a></li>
@@ -41,17 +46,3 @@
 <% if(error){ %>
     <div class="alert alert-danger" role="alert">Incorrect Username/Password. </div>
 <% } %>       
-
-      
-    
-
-    
-        
-    
-        
-        
-
-
-
-
-

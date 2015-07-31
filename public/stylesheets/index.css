@@ -110,6 +110,13 @@ p{
 	font-family: "proxima-nova",sans-serif;
 	margin-bottom: 40px;
 }
+.icon-menu {
+  display:none;
+}
+.icon-close{
+	display:none;
+}
+
 #left{
 	display: inline-block;
 	width:250px;

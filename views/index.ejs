@@ -4,14 +4,23 @@
         <video autoplay muted loop id="vedio">
             <source src="/images/test.mp4">
         </video>
-        <img id="mobile" src="/images/party.jpg">
-        </img>  
+         <script>
+	    var video= document.getElementById('vedio');
+	    video.playbackRate = 0.5;
+		</script>
+		 
+		 
         <div>
         <%- include header %>
                 
         <img class="wrap" src="/images/wrap.png">
         </div>
+		
+		
         <div id="intro">
+			<div class="icon-menu">
+				Menu
+			</div>
             <h1 style="color: #fffefe;font-size: 64px;line-height: 64px;font-weight: 700;text-shadow: none;letter-spacing: 2px;">toGather
             </h1>
             <p>
@@ -28,11 +37,15 @@
             
         </div>
     </div>
-    <div>
+    <div id="pagefoot">
         <%- include loginpop %>
 
         <%- include paging %>
     </div>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/javascripts/index.js"></script>
+	
 </body>
 
 
