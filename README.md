@@ -47,7 +47,7 @@ The ToGather project is an interactive mapping platform that would display event
     - cd into the toGather directory.
     - Run `npm install` to install the requirements.
 
-5. Follow the [Deploying Django](http://www.djangobook.com/en/2.0/chapter12.html) instructions to setup healthyhome for the current server environment.
+5. Follow the [Installing and Building NodeJS](https://github.com/joyent/node/wiki/Installation) instructions to setup NodeJS for the current server environment.
 
 ### Submitting a Complaint
 Go to http://www.github.com/jasonchenzhou/toGather.
