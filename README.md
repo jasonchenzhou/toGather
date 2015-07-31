@@ -31,51 +31,50 @@ The ToGather project is an interactive mapping platform that would display event
     - Skip this step if NodeJS is already installed on the web server.
     - See https://nodejs.org/ for installation instructions.
 
-2. Ensure that pip is installed on the web server.
-    - Pip is a python package manager that will help install the requirements for healthyhome.
-    - See http://www.pip-installer.org for installation instructions.
+2. Ensure that all modules are installed on the web server.
+    - NPM is a NodeJS package manager that will help install the requirements for ToGather.
+    - See https://www.npmjs.com/ for installation instructions.
 
 3. Upload the healthyhome files to the server using one of the following steps:
     1. FTP
         - Download an archive of the application from https://github.com/jasonchenzhou/ToGather/archive/master.zip.
         - Upload the archive to server and unzip it.
     2. Git
-        - Use URL https://github.com/CSC301H-Fall2013/healthyhome.git
+        - Use URL https://github.com/jasonchenzhou/toGather.git
 
-4. Install the packages required by healthyhome.
+4. Install the packages required by toGather.
     - SSH into the server.
-    - cd into the healthyhome directory.
-    - Run `pip install -r requirements.txt` to install the requirements.
+    - cd into the toGather directory.
+    - Run `npm install` to install the requirements.
 
 5. Follow the [Deploying Django](http://www.djangobook.com/en/2.0/chapter12.html) instructions to setup healthyhome for the current server environment.
 
 ### Submitting a Complaint
-Replace http://www.example.com with the base URL (the URL healthyhome is accessible from) in the instructions below.
+Go to http://www.github.com/jasonchenzhou/toGather.
 
-1. Report complaints at http://www.example.com/report.
-2. Enter in a valid address, city and province. 
-3. Select at least one problem to complain about.
-4. Click submit.
-5. Confirm the complaint, or go back to edit the address.
+1. Report complaints at https://github.com/jasonchenzhou/toGather/issues
+2. Click 'New issue'
+3. Write at least one problem to complain about as a title.
+4. Leave a comment.
+5. Click 'Submit new issue'.
 
 ### Moderation
-Replace http://www.example.com with the base URL (the URL healthyhome is accessible from) in the instructions.
+Replace http://www.example.com with the base URL (the URL togather is accessible from) in the instructions.
 
-1. Access the admin area of the website at http://www.healthyhome.com/admin
-2. Login with default admin account 'healthyhome' and password 'fiber'.
-3. Delete a building or complaint.
-    - Delete a building by clicking on the 'Building' link, selecting the building, and choosing 'Delete selected buildings' from the Action dropdown.
-    - Delete a complaint by clicking on the 'Complaint' link, selecting the complaint, and choosing 'Delete selected complaint' from the Action dropdown.
+1. Access the admin area of the website at http://www.togather.com/admin
+2. Login with default admin account 'admin' and password 'admin'.
+3. Delete a Event, a review, or a account.
+    - Delete a Event by clicking on the 'Event' link, selecting the Event, and choosing 'Delete selected Events' from the Action dropdown.
+    - Delete a review by clicking on the 'Review' link, selecting the review, and choosing 'Delete selected Review' from the Action dropdown.
+    - Delete a account by clicking on the 'Account' link, selecting the Account, and choosing 'Delete selected Account' from the Action dropdown.
 
 ### Using the application
-Replace http://www.example.com with the base URL (the URL healthyhome is accessible from) in the instructions.
+Replace http://www.example.com with the base URL (the URL togather is accessible from) in the instructions.
 
-Refer to the help page at http://www.example.com/help for instructions on using healthyhome.
+Refer to the help page at http://www.example.com/about for instructions on using toGather.
 
-### Disqus
-Healthyhome uses Disqus for building page comments. By default, healthyhome is setup to work with the 'healthyhome' Disqus account. To change to a new account follow these steps.
+### oAuth
+toGather uses oAuth for creating page events and reviews. By default, toGather is setup to work with the 'togather' oAuth account. To change to a new account follow these steps.
 
-1. Setup a Disqus account using http://disqus.com.
-2. Edit the template page templates/complaints/building\_page.html, replacing the disqus_shortname variable with shortname associated with the new Disqus account.
-
-To moderate comments, login to the Disqus account from (http://disqus.com).
+1. Setup an oAuth account using http://gmail.com.
+2. Login with the account created.
