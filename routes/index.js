@@ -427,6 +427,67 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 */
 
+    app.get('/u/:name', checkLogin);
+    app.get('/u/:name', function(req, res){
+        var page = req.query.p ? parseInt(req.query.p) : 1;
+        var name = req.params.name;
+
+        User.getFriend(name, function(err, friends){
+            if(err){
+                req.flash('error', err);
+                return  res.redirect('back');
+            }
+            else{
+                Post.getAll(name, function(err, posts, total){
+                    if(err){
+                        req.flash('error', err);
+                        return  res.redirect('back');
+                     }
+                    res.render('personalPage', {
+                        currentUser: req.session.user.name,
+                        pageUser: req.params.name,
+                        posts: posts,
+                        friends: friends,
+                        page: page,
+                        isFirstPage: (page - 1) == 0,
+                        isLastPage: ((page-1)*10 + posts.length) == total,
+                        success:  req.flash('success').toString(),
+                        error:  req.flash('error').toString()
+                    });
+                });
+            }
+        })
+
+        
+    });
+
+
+    
+    app.get('/addFriend/:currentUser/:pageUser', function(req, res){
+        var currentUser = req.params.currentUser;
+        var pageUser = req.params.pageUser;
+        var existed = false;
+        User.getFriend(currentUser, function(err, friends){
+            for(i in friends){                    //if existed, go
+                if(friends[i] === pageUser){
+                    res.redirect('/u/'+pageUser);
+                    existed = true;
+                    break;
+                }
+            }
+            if(existed == false){
+                User.addFriend(req.params.currentUser, req.params.pageUser, function(err){    //if not, add
+                    if(err){
+                        req.flash('error', err);
+                        return  res.redirect('back');
+                    }
+                    res.redirect('/u/'+pageUser);
+                });      
+            }
+        });
+    });
+
+
 
 
     app.get('/u/:name/:day/:title/:loc/:partyDate', checkLogin);

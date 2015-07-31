@@ -5,6 +5,7 @@ function User(user){
 	this.name = user.name;
 	this.password = user.password;
 	this.email = user.email;
+	this.friends = [];
 };
 
 module.exports = User;
@@ -13,7 +14,8 @@ User.prototype.save = function(callback){
 	var user = {
 		name: this.name,
 		password: this.password,
-		email: this.email
+		email: this.email,
+		friends: this.friends
 	};
 
 	//open DB
@@ -70,6 +72,55 @@ User.getAll = function(callback){
 		});
 	});
 }
+
+
+User.getFriend = function(currentUser, callback){
+	mongodb.open(function(err, db){
+		if(err)  return callback(err);
+		db.collection('users', function(err, collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+            else{
+            	collection.findOne({"name": currentUser},
+				        function(err, user){
+					        mongodb.close();
+					        if(err)  return callback(err);
+					        callback(null, user.friends);
+				        });
+            }
+        });
+	});
+}
+
+
+
+
+User.addFriend = function(currentUser, pageUser, callback){
+	mongodb.open(function(err, db){
+		if(err)  return callback(err);
+		db.collection('users', function(err, collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+            else{
+            	collection.update({"name": currentUser}, {$push: {"friends": pageUser}},
+				        function(err){
+					        mongodb.close();
+					        if(err)  return callback(err);
+					        callback(null);
+				        });
+            }
+        });
+	});
+}
+
+		
+
+
+
 
 
 
