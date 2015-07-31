@@ -1,33 +1,35 @@
 ToGather
 ===========
 
-The ToGather project is an interactive mapping platform that would display events created by a number of users (Event creaters, Event attendees) that would be sent into the interactive map through text messaging and through a web browser. The information would include minimum criteria to be determined, such as: mold and pest infestation, unit disrepair, heat problems, and security issues. The data will be displayed on a Google Map. The purpose of the interactive map would be to expose the huge amount of housing problems that exist in large Canadian Cities. Toronto will serve as a pilot site with the aim of broadening the project to Ottawa and eventually nation-wide. HealthyHome is a sister website of [Acorn Canada](https://www.acorncanada.org/).
+The ToGather project is an interactive mapping platform that would display events created by a number of users (Event creaters, Event attendees) that would be sent into the interactive Google map through a web browser. The information would include minimum criteria to be determined, such as: Event date, Event type, and Event location. The data will be displayed above a Google Map. The purpose of the interactive map would be to facilitate the huge amount of service problems that exist in large Canadian Cities. Toronto will serve as a pilot site with the aim of broadening the project to Ottawa and eventually nation-wide. Website of [ToGather](https://www.ToGather.org/).
 
-[Live Website](http://acornhh.herokuapp.com)
+[Live Website](http://t0gather.herokuapp.com)
 
 ### Requirements
 - Google Maps API
-- Disqus Account 
-- Python 2.7
-- Django 1.5.4
-- dj-database-url 0.2.2
-- dj-static 0.0.5
-- django-form-utils 1.0.1
-- django-toolbelt 0.0.1
-- gunicorn 18.0
-- psycopg2 2.5.1
-- python-dateutil 2.2
-- python-mimeparse 0.1.4
-- six 1.4.1
-- sqlparse 0.1.10
-- static 0.4
-- wsgiref 0.1.2
+- Oauth Account
+- Node 0.12.7
+- express 4.13.0
+- ejs 2.3.2
+- body-parser 1.13.1
+- cookie-parser 1.3.5
+- debug 2.2.0
+- morgan 1.6.1
+- -mongodb 1.4.15
+- -express-session 1.91
+- -connect-mongo 0.4.1
+- -connect-flash 0.1.1
+- -markdown 0.5.0
+- -multer 0.1.6
+- -gridfs-stream *
+- -formidable *
+- -quickthumb *
 
 ### Installation
 
-1. Ensure that python 2.7 is installed on the web server.
-    - Skip this step if python is already installed on the web server.
-    - See http://www.python.org/getit for installation instructions.
+1. Ensure that NodeJS 0.12.7 is installed on the web server.
+    - Skip this step if NodeJS is already installed on the web server.
+    - See https://nodejs.org/ for installation instructions.
 
 2. Ensure that pip is installed on the web server.
     - Pip is a python package manager that will help install the requirements for healthyhome.
@@ -35,7 +37,7 @@ The ToGather project is an interactive mapping platform that would display event
 
 3. Upload the healthyhome files to the server using one of the following steps:
     1. FTP
-        - Download an archive of the application from https://github.com/CSC301H-Fall2013/healthyhome/archive/master.zip.
+        - Download an archive of the application from https://github.com/jasonchenzhou/ToGather/archive/master.zip.
         - Upload the archive to server and unzip it.
     2. Git
         - Use URL https://github.com/CSC301H-Fall2013/healthyhome.git
