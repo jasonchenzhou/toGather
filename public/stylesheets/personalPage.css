@@ -1,0 +1,84 @@
+#background{
+	z-index:-1;
+	position:fixed;
+
+}
+#welcome{
+	margin-top: 15px;
+    text-transform: uppercase;
+
+	margin-left: 11%;
+	color: white;
+	font-size: 20px;
+	line-height: 20px;
+	font-family: "proxima-nova",sans-serif;
+	font-weight: 400;
+	text-shadow: none;
+	letter-spacing: 2px;
+	position:absolute;
+}
+#article{
+		display: block;
+		top:60px;
+		left:10%;
+		right:10%;
+		bottom: 10%;
+		z-index:0;
+		position:absolute;
+		overflow: scroll;
+	}
+#friends{
+		color:white;
+		margin: 5px;
+/*		background-color: #aaaaaa;
+*/		display: block;
+		left:10%;
+		right:10%;
+		top:90%;
+		bottom: 0;
+		z-index:0;
+		position:absolute;
+		overflow: scroll;
+		font-size: 20px;
+		line-height: 20px;
+		font-family: "proxima-nova",sans-serif;
+		font-weight: 400;
+		text-shadow: none;
+		letter-spacing: 2px;
+		padding:5px;
+	}
+
+
+#articleItem{
+/*		background: scroll rgba(255,255,255,0.6);
+*/		border-radius: 10px;
+		display: inline-block;
+		width:50%;
+		height: 350px;
+		float: left;
+		padding:5px;
+		z-index: 1;
+	}
+
+	#ops{
+		position: absolute;
+		float:right;
+		font-size: 16px;
+	}
+	#timeinfo{
+		color: black;
+		font-size: 16px;
+	}
+	#detail{
+		position: relative;
+		overflow: scroll;
+		z-index:5;
+	}
+	#imginfo{
+		position: relative;
+		width: 100%;
+		display: block;
+		z-index: 1;
+		margin-left: 0;
+		margin-top: 0px;
+	}

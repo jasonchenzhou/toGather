@@ -1,28 +1,73 @@
-<p><%= pageUser %>'s Personal page!</p>
+<link rel="stylesheet" href="/stylesheets/personalPage.css">
+<body>
+    <div id="background">
+       <img class="wrap" src="/images/homepage.jpg">
+        </img>
+       <!--  <img class="wrap" src="/images/wrap.png">
+        </img>  -->  
+    </div>
+    <div>
+            <%- include header %>
+                
+    </div>
+    <div id="welcome">
+            <%= pageUser %>'s article
+    </div>
+    <div id="article">
+        
+        <% posts.forEach(function(post){ %>
 
-<% posts.forEach(function(post){ %>
+                    <% if(currentUser == pageUser){ %>
+                    <div id="articleItem">
+                            <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Edit</a></span>
+                            <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a></span>     
 
-    <% if(currentUser == pageUser){ %>
-        <p>
-            <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Edit</a></span>
-            <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a></span>
-        </p>
-    <% } %>
-    <% if(currentUser != pageUser){ %>
-        <a href="/addFriend/<%= currentUser %>/<%= pageUser %> ">Add Friend!</a><br/>
+                    
+                    <% } %>
+                    <% if(currentUser != pageUser){ %>
+                        <a href="/addFriend/<%= currentUser %>/<%= pageUser %> ">Add Friend!</a><br/>
 
-    <% } %>  
-<p class="info">
-     
-    Date: <%= post.time.minute %>
-    Location: <%= post.loc %>
-    Picture:  <img src="<%= post.pic.path.substring(6)%>" />
-</p>
-<p><%- post.post%></p>
-<% }) %>
+                    <% } %>  
+                     <img id="imginfo" src="<%= post.pic.path.substring(6)%>" />
+
+                    <span id="timeinfo">Date: <%= post.time.minute %></span> 
+                    <br>
+                    <span id="timeinfo">Location: <%= post.loc %></span>
+                    <br>
+
+                </div>
+
+        <% }) %>
 
 
-<p><%= pageUser %>'s Friends Lists</p>
-<% friends.forEach(function(friend){ %>
-    <a href="/u/<%= friend %> "><%= friend %></a><br/>
-<% }) %>
+
+
+
+                 
+
+    </div>
+        
+
+     <div id="friends">
+             <%= pageUser %>'s Friends Lists
+            <% friends.forEach(function(friend){ %>
+                <a href="/u/<%= friend %> "><%= friend %></a><br/>
+            <% }) %>
+   
+        </div> 
+
+
+
+
+       
+          
+            
+           
+
+
+
+
+
+
+ 
+</body>

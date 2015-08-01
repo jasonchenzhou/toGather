@@ -444,6 +444,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                         return  res.redirect('back');
                      }
                     res.render('personalPage', {
+                        user: req.session.user,
                         currentUser: req.session.user.name,
                         pageUser: req.params.name,
                         posts: posts,
