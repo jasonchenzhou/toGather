@@ -13,6 +13,9 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var multer = require('multer');
 
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
+
 var app = express();
 
 // view engine setup
@@ -70,6 +73,22 @@ app.use(session({
 
 routes(app);
 
+
+/*
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
+
+if(cluster.isMaster){
+  for(var i=0; i<numCPUs; i++)  cluster.fork();
+}
+else{
+  app.listen(app.get('port'), function(){
+      console.log('Express server listening on port ' + app.get('port'));
+  });
+}
+*/
+
 app.listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
-});
+      console.log('Express server listening on port ' + app.get('port'));
+  });
+  
