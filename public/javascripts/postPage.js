@@ -5,7 +5,7 @@ function initialize() {
     zoom: 13
   };
 
-alert("!!!");
+
 
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 

@@ -152,6 +152,11 @@
 		    text-decoration: none;
 
 	}
+
+    #autoKeyword{
+    	width: 40%;
+    }
+
 	.signbtn:hover {
 
 		background-color: #0079c2;

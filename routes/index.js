@@ -15,6 +15,9 @@ module.exports = function(app){
 	app.get('/', function(req, res){
         //find its page
         var page = req.query.p ? parseInt(req.query.p) : 1;
+
+  console.log(req.session.user);
+
         Post.getTen(null, page, function(err, posts, total){
             if(err)  posts = [];
             res.render('index', {
@@ -427,7 +430,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
 
 */
 
-    app.get('/u/:name', checkLogin);
+ //   app.get('/u/:name', checkLogin);
     app.get('/u/:name', function(req, res){
         var page = req.query.p ? parseInt(req.query.p) : 1;
         var name = req.params.name;
@@ -571,7 +574,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
     });
  
 
-    app.get('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
+ //   app.get('/edit/:name/:day/:title/:loc/:partyDate', checkLogin);
     app.get('/edit/:name/:day/:title/:loc/:partyDate', function(req, res){
         var currentUser = req.session.user;
         Post.edit(currentUser.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, post){
