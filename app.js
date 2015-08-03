@@ -63,7 +63,7 @@ app.use(multer({
     port: settings.port
   })
 }));  */
-app.use(session({secret: settings.cookieSecret}));
+app.use(session({secret: settings.cookieSecret, cookie: {maxAge: 60000}}));
 
 
 
@@ -74,12 +74,12 @@ app.use(session({
 
 routes(app);
 
-/*
+
 app.listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
 });
-*/
 
+/*
 if(cluster.isMaster){
   for(var i=0; i<numCPUs; i++)  cluster.fork();
 }
@@ -88,3 +88,4 @@ else{
       console.log('Express server listening on port ' + app.get('port'));
   });
 }
+*/
