@@ -684,7 +684,7 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 return res.redirect('back');
             }
             req.flash('success', 'delete success!');
-            res.direct('back');
+            res.redirect('/admin');
         })
     })
 
