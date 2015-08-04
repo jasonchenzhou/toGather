@@ -1,8 +1,33 @@
-<p>admin part!</p>
+<link rel="stylesheet" href="/stylesheets/personalPage.css">
+<body>
+    <div id="background">
+       <img class="wrap" src="/images/homepage.jpg">
+        </img>
+       <!--  <img class="wrap" src="/images/wrap.png">
+        </img>  -->  
+    </div>
+    <div>
+            <%- include header %>
+                
+    </div>
+    <div id="welcome">
+            Admin's page
+    </div>
+    
 
-<% users.forEach(function(user){ %>
+     <div id="article">
+     	<h3>Current Users</h3>
+     	<div class="form" style="width:auto">
+     		<% users.forEach(function(user){ %>
 
-    <a href="/admin/<%= user.name %>"><%= user.name %></a>
-    <a href="/adminRemoveUser/<%= user.name %>">delete</a><br />
+			    <a class="formtitle" href="/admin/<%= user.name %>"><%= user.name %></a>
+			    <a class="formtitle" href="/adminRemoveUser/<%= user.name %>">delete</a><br />
 
-<% }) %>
+			<% }) %>
+     	</div>
+             
+            
+   
+    </div> 
+</body>
+

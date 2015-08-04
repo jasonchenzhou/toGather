@@ -638,7 +638,10 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
                 }
 
                 res.render('admin', {
-                    users: users
+                    user: req.session.user,
+                    users: users,
+                    success: req.flash('success').toString(),
+                    error: req.flash('error').toString()
                 });
             });
         }
