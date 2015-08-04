@@ -209,6 +209,46 @@ var getData = function(){
                         return res.redirect('/reg');
                     } */
                     else{
+                        User.getAll(function(err, users){
+                            if(err){
+                                req.flash('error', err);
+                                return res.redirect('/login');
+                            }
+                            else{
+                                for(i in users){
+                                    //console.log(users[i]);
+                                    if(users[i].name === name){        //has this one
+                                        req.session.user = users[i];
+                                        req.flash('success', 'register successfully!');
+                                        res.redirect('/');
+                                    }
+                                }
+
+
+
+                                var newUser = new User({
+                                        name: name,
+                                        password: null,
+                                        email: null
+                                    });
+                                    newUser.save(function(err, user){
+                                        if(err){
+                                            req.flash('error', err);
+                                            return res.redirect('/reg');
+                                        }
+                                        req.session.user = newUser;
+                                        console.log("session user: "+req.session.user.name);
+                                        req.flash('success', 'register successfully!');
+                                        res.redirect('/');
+                                    });
+
+
+
+
+                            } 
+                        })
+                    }
+                  /*  else{
                         var newUser = new User({
                             name: name,
                             password: null,
@@ -224,7 +264,7 @@ var getData = function(){
                             req.flash('success', 'register successfully!');
                             res.redirect('/');
                         });
-                    }  
+                    }  */
                 });  
             });
 
