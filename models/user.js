@@ -137,7 +137,7 @@ User.remove = function(name, callback){
         	}, function(err){
         		mongodb.close();
         		if(err)  return callback(err);
-        		callback(null);
+        		//callback(null);
         	})
         })
 
