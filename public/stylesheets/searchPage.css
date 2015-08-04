@@ -100,6 +100,9 @@
 
 
 @media only screen and (max-width: 960px){
+	#searchbar {
+		display:none;
+	}
 	#map {
 			display: none;
 	      }

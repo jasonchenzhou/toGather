@@ -1,10 +1,42 @@
+<link rel="stylesheet" href="/stylesheets/personalPage.css">
+<body>
+    <div id="background">
+       <img class="wrap" src="/images/homepage.jpg">
+        </img>
+       <!--  <img class="wrap" src="/images/wrap.png">
+        </img>  -->  
+    </div>
+    <div>
+            <%- include header %>
+                
+    </div>
+    <div id="welcome">
+            Admin Edit
+    </div>
+    
 
-<h1>Admin Edit</h1>
-<form method = "post">
-    Title: <br/>
-    <input type="text" name="title" value="<%= post.title %>" /><br/>
-    <input type="text" name="loc" value="<%= post.loc %>" /><br/>
-    Paragraph: <br/>
-    <textarea name="post" rows="20" cols="100"><%= post.post %></textarea><br/>
-    <input type="submit" value="store edit"/>
-</form>
+     <div id="article">
+     	<div class="form" style="width:80%">
+     		<form method = "post">
+     			<div>
+                        <span class="formtitle">Title:</span>
+						<input type="text" name="title" value="<%= post.title %>" style="width:200px"/>
+						<span class="formtitle">Location:</span>
+			    		<input type="text" name="loc" value="<%= post.loc %>" style="width:380px"/><br/>
+			  	</div>
+			  	<br>
+			    <div>
+                        <span class="formtitle">Paragraph:</span>
+						<textarea name="post" rows="20" cols="100"><%= post.post %></textarea><br/>
+						<button type="submit" value="store edit" class="submit">Submit</button>
+
+			  	</div>
+			</form>
+     	</div>
+             
+			   
+    </div> 
+</body>
+
+
+
