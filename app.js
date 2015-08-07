@@ -12,6 +12,7 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var multer = require('multer');
+//var ejs = require('ejs');
 
 
 var cluster = require('cluster');
@@ -70,6 +71,7 @@ app.use(multer({
 app.use(session({
 	secret: 'keyboard '
 }));
+
 
 
 routes(app);

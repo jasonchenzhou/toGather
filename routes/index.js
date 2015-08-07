@@ -537,10 +537,17 @@ var page = req.query.p ? parseInt(req.query.p) : 1;
         var attender = req.params.attender;
         var existed = false;
         Post.getAttender(req.params.name, req.params.day, req.params.title, req.params.loc, req.params.partyDate, function(err, attenders){
+
             for(i in attenders){
+
+console.log(attenders[i]);
+            console.log("~~~~~~~~~~~~~~~~~~");
+//console.log(attenders[i]);
+
                 if(attender === attenders[i]){
                    // res.write("haha~~~~~~~~~");
                     existed = true;
+                 //   res.redirect('back');
                 }
             }
             if(existed == false){

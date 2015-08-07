@@ -1,56 +1,46 @@
-<%- include header %>
+<!--  <%- include header %>  -->
 
 <link rel="stylesheet" href="/stylesheets/article.css">
+<script src="/javascripts/article.js"></script>
 
-<h1>article page</h1>
 
+<!--
 <% if(user.name == articleowner){ %>
 <p>
     <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Edit</a></span>
     <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a></span>
 </p>
 <% } %>
-<p class="article">
-    <div id="articleItem">
-        <img id="articleimg" src="<%= post.pic.path.substring(6)%>" />
-        Author: <a href="/u/<%= post.name %>"><%= post.name %></a>   
-        Date: <%= post.time.minute %>
-        Location: <%= post.loc %>
+
+-->
+
+<div id="articleContent">
+    <p>
+        <img id="articleImg" src="<%= post.pic.path.substring(6)%>" />
+        <div id="articleDes"> 
+            <div id="articleTitle"><%= post.title %></div>   
+            Host: <a href="/u/<%= post.name %>"><%= post.name %></a>   
+            Date: <%= post.partyDate.getFullYear() + "-" + (post.partyDate.getMonth()+1) + "-" + post.partyDate.getDate() %>
+            <div id="articleLoc">Location: <%= post.loc %></div>
+            <div id="articlePost"><%= post.post %></div>
+        </div>
+
+
+    <div id="articleAttend">
+        <p>People Attended: </p>
+        <ul>
+            <% attenders.forEach(function(attender){ %>
+                <a href='/u/<%= attender %>'><%= attender %></a>
+            <% }) %>
+        </ul>
     </div>
 
+        <a href="/attend/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>/<%= user.name %>">Attend</a>
+    </p>
 
-<script type="text/javascript">
-    $(function(){
-    	$('#attend').click(function(e){
-    		e.preventDefault();
-    		console.log("touch attend!!");
+    <div id="articleComment">
+        <%- include comment %>
+    </div>
+</div>
 
-    		$.ajax({
-    			type: 'POST',
-    			contentType: 'application/json',
-    			url: "/attend/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>/<%= user.name %>",
-    			success: function(data){
-    				console.log('ajax success');
-    				//console.log(JSON.stringify(data));
-    				alert(data);
-    			}
-    		});
-    	});
-    });
-</script>
-
-
-
-<div id="attend"><p>Attend</p></div>
-
-<ul>
-    <% attenders.forEach(function(attender){ %>
-        <a href='/u/<%= attender %>'><%= attender %></a>
-    <% }) %>
-<ul>
-
-    <a href="/attend/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>/<%= user.name %>">Attend</a>
-</p>
-<p><%- post.post%></p>
-<%- include comment %>
 <%- include footer %>

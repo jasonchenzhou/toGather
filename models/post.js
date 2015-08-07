@@ -22,6 +22,7 @@ Post.prototype.save = function(callback){
 		day: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate()),
 		minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate()) + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) 
     }
+ //   var partyDate = this.partyDate.getFullYear() + "-" + (this.partyDate.getMonth()+1) + "-" + this.partyDate.getDate();
 
     var post = {
     	name: this.name,
@@ -268,7 +269,7 @@ Post.getAttender = function(name, day, title, loc, partyDate, callback){
                 mongodb.close();
                 return  callback(err);
             }
-            collection.update({
+            collection.findOne({
                 "name": name,
                 "time.day": day,
                 "title": title,
