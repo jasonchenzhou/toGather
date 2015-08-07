@@ -1,4 +1,7 @@
 <%- include header %>
+
+<link rel="stylesheet" href="/stylesheets/article.css">
+
 <h1>article page</h1>
 
 <% if(user.name == articleowner){ %>
@@ -7,13 +10,13 @@
     <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a></span>
 </p>
 <% } %>
-<p class="info">
-    
-    Author: <a href="/u/<%= post.name %>"><%= post.name %></a>   
-    Date: <%= post.time.minute %>
-    Location: <%= post.loc %>
-    Picture:  <img src="<%= post.pic.path.substring(6)%>" />
-
+<p class="article">
+    <div id="articleItem">
+        <img id="articleimg" src="<%= post.pic.path.substring(6)%>" />
+        Author: <a href="/u/<%= post.name %>"><%= post.name %></a>   
+        Date: <%= post.time.minute %>
+        Location: <%= post.loc %>
+    </div>
 
 
 <script type="text/javascript">

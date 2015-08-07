@@ -63,7 +63,7 @@ app.use(multer({
     port: settings.port
   })
 }));  */
-app.use(session({secret: settings.cookieSecret, cookie: {maxAge: 60000}}));
+//app.use(session({secret: settings.cookieSecret, cookie: {maxAge: 60000}}));
 
 
 
