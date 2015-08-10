@@ -106,6 +106,8 @@
 		text-align: left;
 		font-family: "proxima-nova",sans-serif;
 		margin-bottom: 40px;
+		word-wrap: break-word;
+		word-break:normal; 
 	}
 	.icon-menu {
 	  display:none;

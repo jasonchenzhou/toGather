@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="/stylesheets/personalPage.css">
 <body>
     <div id="background">
-       <img class="wrap" src="/images/homepage.jpg">
-        </img>
+       <!--<img class="wrap" src="/images/homepage.jpg">
+        </img>   _.
        <!--  <img class="wrap" src="/images/wrap.png">
         </img>  -->  
     </div>
@@ -19,16 +19,23 @@
 
                     <% if(currentUser == pageUser){ %>
                     <div id="articleItem">
-                            <span><a class="edit" href="/edit/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Edit</a></span>
+                            <span><a class="edit" href="/u/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">
+                                <img id="imginfo" src="<%= post.pic.path.substring(6)%>" alt="users' images"/>
+                            </a></span>
                             <span><a class="edit" href="/remove/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">Delete</a></span>     
 
                     
                     <% } %>
                     <% if(currentUser != pageUser){ %>
+
+                        <span><a class="edit" href="/u/<%= post.name %>/<%= post.time.day%>/<%= post.title %>/<%= post.loc %>/<%= post.partyDate %>">
+                                <img id="imginfo" src="<%= post.pic.path.substring(6)%>" alt="image"/>
+                        </a></span>
+
                         <a href="/addFriend/<%= currentUser %>/<%= pageUser %> ">Add Friend!</a><br/>
 
                     <% } %>  
-                     <img id="imginfo" src="<%= post.pic.path.substring(6)%>" />
+              <!--       <img id="imginfo" src="<%= post.pic.path.substring(6)%>" />   -->
 
                     <span id="timeinfo">Date: <%= post.time.minute %></span> 
                     <br>
